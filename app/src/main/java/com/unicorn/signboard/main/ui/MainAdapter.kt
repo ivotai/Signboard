@@ -1,4 +1,4 @@
-package com.unicorn.signboard.main
+package com.unicorn.signboard.main.ui
 
 import com.blankj.utilcode.util.ToastUtils
 import com.unicorn.signboard.R

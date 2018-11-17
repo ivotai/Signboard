@@ -1,13 +1,23 @@
 package com.unicorn.signboard.app.api
 
+import com.unicorn.signboard.login.model.LoginParam
+import com.unicorn.signboard.login.model.LoginResponse
+import com.unicorn.signboard.login.model.VerifyCodeResponse
+import io.reactivex.Observable
+import retrofit2.http.*
+
 interface UniqueApi {
 
-//    @GET(value = "public/sms/verifyCode/login")
-//    fun getVerifyCode(@Query("phoneNo") phoneNo: String): Observable<VerifyCodeResponse>
-//
-//    @Headers("Content-Type: application/json")
-//    @POST("login/sms")
-//    fun login(@Body loginInfo: LoginInfo): Observable<LoginResponse>
+    // login
+
+    @GET(value = "public/sms/verifyCode/login")
+    fun getVerifyCode(@Query("phoneNo") phoneNo: String): Observable<VerifyCodeResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("login/sms")
+    fun login(@Body loginInfo: LoginParam): Observable<LoginResponse>
+
+    //
 //
 //    @GET(value = "api/v1/sign/dict")
 //    fun getDict(): Observable<Dict>

@@ -1,4 +1,4 @@
-package com.unicorn.signboard.main
+package com.unicorn.signboard.main.ui
 
 import com.unicorn.signboard.R
 import com.unicorn.signboard.app.base.BaseAct
