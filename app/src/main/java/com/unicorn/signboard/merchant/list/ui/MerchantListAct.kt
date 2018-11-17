@@ -8,19 +8,19 @@ import com.unicorn.signboard.app.adapter.MyAdapter
 import com.unicorn.signboard.app.adapter.MyHolder
 import com.unicorn.signboard.app.addDefaultItemDecoration
 import com.unicorn.signboard.app.base.BaseAct
-import com.unicorn.signboard.app.base.Content
 import com.unicorn.signboard.app.base.Page
 import com.unicorn.signboard.app.base.PageActOrFra
 import com.unicorn.signboard.app.base.PageActOrFra.Companion.rows
 import com.unicorn.signboard.app.observeOnMain
+import com.unicorn.signboard.merchant.model.Merchant
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.title_swipe_recycler.*
 
-class MerchantListAct : BaseAct(), PageActOrFra<Content> {
+class MerchantListAct : BaseAct(), PageActOrFra<Merchant> {
 
-    override var mAdapter: MyAdapter<Content, MyHolder>? = MerchantListAdapter()
+    override var mAdapter: MyAdapter<Merchant, MyHolder>? = MerchantListAdapter()
 
-    override fun loadPage(pageNo: Int): Observable<Page<Content>> {
+    override fun loadPage(pageNo: Int): Observable<Page<Merchant>> {
         return AppTime.api.getDict(pageNo = pageNo, pageSize = rows, lastDate = "month")
             .observeOnMain(this)
     }

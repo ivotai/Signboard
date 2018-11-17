@@ -1,8 +1,13 @@
 package com.unicorn.signboard.main.ui
 
+import android.annotation.SuppressLint
 import com.unicorn.signboard.R
+import com.unicorn.signboard.app.AppTime
 import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.app.default
+import com.unicorn.signboard.app.observeOnMain
+import com.unicorn.signboard.app.util.DialogUitls
+import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.title_recycler.*
 
 class MainAct : BaseAct() {
@@ -22,10 +27,37 @@ class MainAct : BaseAct() {
 
     override fun bindIntent() {
         setData()
+        prepareData()
     }
 
     private fun setData() {
         listOf("商户录入", "商户列表").let { mAdapter.setNewData(it) }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun prepareData() {
+        val api = AppTime.api
+        val mask = DialogUitls.showMask(this, "获取数据中...")
+        api.getDict()
+            .flatMap {
+                AppTime.dict = it
+                return@flatMap api.getArea()
+            }.flatMap {
+                AppTime.areaList = it
+                return@flatMap api.getOperateType()
+            }.flatMap {
+                AppTime.operateTypeList = it
+                return@flatMap api.getHotOperateType()
+            }.observeOnMain(this)
+            .subscribeBy(
+                onNext = {
+                    mask.dismiss()
+                    AppTime.hotOperateTypeList = it
+                },
+                onError = {
+                    mask.dismiss()
+                }
+            )
     }
 
 }

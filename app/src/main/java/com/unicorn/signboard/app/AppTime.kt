@@ -4,6 +4,9 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.unicorn.signboard.app.api.UniqueApi
 import com.unicorn.signboard.login.LoginHelper
 import com.unicorn.signboard.login.model.LoginResponse
+import com.unicorn.signboard.merchant.model.Dict
+import com.unicorn.signboard.merchant.model.Obj
+import com.unicorn.signboard.merchant.model.OperateType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -18,11 +21,14 @@ object AppTime {
 
     lateinit var loginResponse: LoginResponse
 
-//    lateinit var dict: Dict
+    lateinit var dict: Dict
 
-//    lateinit var operateTypeList: List<OperateType>
+    lateinit var areaList: List<Obj>
 
-//    lateinit var hotOperateTypeList: List<OperateType>
+    lateinit var operateTypeList: List<OperateType>
+
+    lateinit var hotOperateTypeList: List<OperateType>
+
     //
 
     lateinit var client: OkHttpClient
@@ -37,7 +43,7 @@ object AppTime {
                 .addNetworkInterceptor(StethoInterceptor())
                 .addInterceptor { chain ->
                     val pathSegments = chain.request().url().encodedPathSegments()
-                    if (pathSegments.contains("login") || pathSegments.contains("dict"))
+                    if (pathSegments.contains("login"))
                         chain.proceed(chain.request())
                     else
                         chain.request().newBuilder()
@@ -74,7 +80,7 @@ object AppTime {
         initOther()
     }
 
-    fun initOther(){
+    fun initOther() {
 
 //        fun getDict() {
 //            ComponentHolder.appComponent.getSingleApi().getDict()
