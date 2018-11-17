@@ -9,6 +9,7 @@ import com.unicorn.signboard.merchant.model.Merchant
 import com.unicorn.signboard.merchant.model.Obj
 import com.unicorn.signboard.merchant.model.OperateType
 import io.reactivex.Observable
+import retrofit2.Call
 import retrofit2.http.*
 
 interface UniqueApi {
@@ -20,6 +21,9 @@ interface UniqueApi {
     @Headers("Merchant-Type: application/json")
     @POST("login/sms")
     fun login(@Body loginInfo: LoginParam): Observable<LoginResponse>
+
+    @GET(value = "login/keep")
+    fun loginByToken(@Query("token") token: String): Call<LoginResponse>
 
     // 商户列表
     @GET(value = "api/v1/sign/merchant")

@@ -2,7 +2,6 @@ package com.unicorn.signboard.app
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.unicorn.signboard.app.api.UniqueApi
-import com.unicorn.signboard.login.LoginHelper
 import com.unicorn.signboard.login.model.LoginResponse
 import com.unicorn.signboard.merchant.model.Dict
 import com.unicorn.signboard.merchant.model.Obj
@@ -54,8 +53,8 @@ object AppTime {
                 .addInterceptor { chain ->
                     val response = chain.proceed(chain.request())
                     if (response.code() != 401) return@addInterceptor response
-                    // when 401
-                    LoginHelper().loginByToken()
+                    // when 401 一句话刷新 token
+                    api.loginByToken(loginResponse.loginToken).execute().body()?.let { loginResponse = it }
                     val newRequest = chain.request().newBuilder()
                         .addHeader(Key.cookie, "${Key.session}=${AppTime.session}")
                         .build()
