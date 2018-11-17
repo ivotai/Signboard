@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.ui.MainAct"/>
-
+        <activity android:name=".merchant.list.ui.MerchantListAct"/>
     </application>
 
 </manifest>

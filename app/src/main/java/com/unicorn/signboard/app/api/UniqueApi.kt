@@ -1,5 +1,7 @@
 package com.unicorn.signboard.app.api
 
+import com.unicorn.signboard.app.base.Content
+import com.unicorn.signboard.app.base.Page
 import com.unicorn.signboard.login.model.LoginParam
 import com.unicorn.signboard.login.model.LoginResponse
 import com.unicorn.signboard.login.model.VerifyCodeResponse
@@ -17,7 +19,16 @@ interface UniqueApi {
     @POST("login/sms")
     fun login(@Body loginInfo: LoginParam): Observable<LoginResponse>
 
-    //
+    // 商户列表
+
+    @GET(value = "api/v1/sign/merchant")
+    fun getDict(
+        @Query("pageNo") pageNo: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("lastDate") lastDate: String
+    ): Observable<Page<Content>>
+
+
 //
 //    @GET(value = "api/v1/sign/dict")
 //    fun getDict(): Observable<Dict>
