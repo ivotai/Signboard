@@ -5,6 +5,7 @@ import com.unicorn.signboard.R
 import com.unicorn.signboard.app.adapter.MyAdapter
 import com.unicorn.signboard.app.adapter.MyHolder
 import com.unicorn.signboard.app.safeClicks
+import com.unicorn.signboard.merchant.add.AddMerchantAct
 import com.unicorn.signboard.merchant.list.ui.MerchantListAct
 import kotlinx.android.synthetic.main.item_right_arrow.*
 
@@ -19,13 +20,16 @@ class MainAdapter : MyAdapter<String, MyHolder>(R.layout.item_right_arrow) {
     override fun bindIntent(helper: MyHolder, viewType: Int) {
         helper.apply {
             root.safeClicks().subscribe {
-                if (helper.adapterPosition == 1) startMerchantAct()
+                mContext.startActivity(
+                    Intent(
+                        mContext,
+                        if (helper.adapterPosition == 0) AddMerchantAct::class.java
+                        else MerchantListAct::class.java
+                    )
+                )
             }
         }
     }
 
-    private fun startMerchantAct() {
-        mContext.startActivity(Intent(mContext, MerchantListAct::class.java))
-    }
 
 }

@@ -4,7 +4,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.unicorn.signboard.app.api.UniqueApi
 import com.unicorn.signboard.login.model.LoginResponse
 import com.unicorn.signboard.merchant.model.Dict
-import com.unicorn.signboard.merchant.model.Obj
+import com.unicorn.signboard.merchant.add.Obj
 import com.unicorn.signboard.merchant.model.OperateType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

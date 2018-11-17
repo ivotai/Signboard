@@ -5,8 +5,8 @@ import com.unicorn.signboard.login.model.LoginParam
 import com.unicorn.signboard.login.model.LoginResponse
 import com.unicorn.signboard.login.model.VerifyCodeResponse
 import com.unicorn.signboard.merchant.model.Dict
-import com.unicorn.signboard.merchant.model.Merchant
-import com.unicorn.signboard.merchant.model.Obj
+import com.unicorn.signboard.merchant.add.Merchant
+import com.unicorn.signboard.merchant.add.Obj
 import com.unicorn.signboard.merchant.model.OperateType
 import io.reactivex.Observable
 import retrofit2.Call

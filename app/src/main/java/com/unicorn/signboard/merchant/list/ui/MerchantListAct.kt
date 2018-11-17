@@ -12,7 +12,7 @@ import com.unicorn.signboard.app.base.Page
 import com.unicorn.signboard.app.base.PageActOrFra
 import com.unicorn.signboard.app.base.PageActOrFra.Companion.rows
 import com.unicorn.signboard.app.observeOnMain
-import com.unicorn.signboard.merchant.model.Merchant
+import com.unicorn.signboard.merchant.add.Merchant
 import io.reactivex.Observable
 import kotlinx.android.synthetic.main.title_swipe_recycler.*
 
