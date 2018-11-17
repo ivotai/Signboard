@@ -8,7 +8,6 @@ import com.blankj.utilcode.util.ToastUtils
 import com.unicorn.signboard.R
 import com.unicorn.signboard.app.AppTime
 import com.unicorn.signboard.app.base.BaseAct
-import com.unicorn.signboard.app.di.ComponentHolder
 import com.unicorn.signboard.app.observeOnMain
 import com.unicorn.signboard.app.safeClicks
 import com.unicorn.signboard.app.trimText
@@ -17,7 +16,6 @@ import com.unicorn.signboard.login.model.LoginParam
 import com.unicorn.signboard.main.ui.MainAct
 import io.reactivex.Observable
 import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.act_login.*
 import java.util.concurrent.TimeUnit
 
@@ -27,14 +25,15 @@ class LoginAct : BaseAct() {
     override val layoutId = R.layout.act_login
 
     override fun initViews() {
+        // TODO DELETE
+        etPhoneNo.setText("13611840324")
+        etVerifyCode.setText("123456")
     }
 
     override fun bindIntent() {
         btnLoginClicks()
         tvVerifyCodeClicks()
     }
-
-    private val api = ComponentHolder.appComponent.getApi()
 
     private fun btnLoginClicks() {
         btnLogin.safeClicks().subscribe { _ ->
@@ -50,9 +49,13 @@ class LoginAct : BaseAct() {
             }
             fun login(loginParam: LoginParam) {
                 val mask = DialogUitls.showMask(this, "登录中...")
-                api.login(loginParam).observeOnMain(this).subscribeBy(
+                AppTime.api.login(loginParam).observeOnMain(this).subscribeBy(
                     onNext = {
                         mask.dismiss()
+                        if (!it.success) {
+                            ToastUtils.showShort(it.message)
+                            return@subscribeBy
+                        }
                         AppTime.loginResponse = it
                         startActivity(Intent(this@LoginAct, MainAct::class.java))
                         finish()
@@ -68,7 +71,7 @@ class LoginAct : BaseAct() {
 
     private fun tvVerifyCodeClicks() {
         fun getVerifyCode(phoneNo: String) {
-            api.getVerifyCode(phoneNo).subscribeOn(Schedulers.io()).subscribe {
+            AppTime.api.getVerifyCode(phoneNo).observeOnMain(this).subscribe {
                 if (it.success) ToastUtils.showShort("验证码已发送")
                 else ToastUtils.showShort(it.error)
             }

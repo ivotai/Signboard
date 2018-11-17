@@ -1,0 +1,27 @@
+package com.unicorn.signboard.app
+
+import android.app.Application
+import com.blankj.utilcode.util.Utils
+import com.facebook.stetho.Stetho
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.Logger
+import io.reactivex.plugins.RxJavaPlugins
+
+class App : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        fun init(application: Application) {
+            Utils.init(application)
+            Logger.addLogAdapter(AndroidLogAdapter())
+            Stetho.initializeWithDefaults(application)
+            AppTime.init()
+            RxJavaPlugins.setErrorHandler {
+                Logger.e(it.toString())
+            }
+        }
+        init(this)
+    }
+
+}
