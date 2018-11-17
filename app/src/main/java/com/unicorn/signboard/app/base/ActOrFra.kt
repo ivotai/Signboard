@@ -1,8 +1,6 @@
-package com.unicorn.signboard.base
+package com.unicorn.signboard.app.base
 
 interface ActOrFra {
-
-//    fun initArguments()
 
     val layoutId: Int
 
@@ -10,6 +8,6 @@ interface ActOrFra {
 
     fun bindIntent()
 
-//    fun registerEvent()
+    fun registerEvent()
 
 }

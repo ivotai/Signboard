@@ -1,7 +1,8 @@
 package com.unicorn.signboard.main
 
 import com.unicorn.signboard.R
-import com.unicorn.signboard.base.BaseAct
+import com.unicorn.signboard.app.base.BaseAct
+import com.unicorn.signboard.app.default
 import kotlinx.android.synthetic.main.title_recycler.*
 
 class MainAct : BaseAct() {
@@ -13,14 +14,10 @@ class MainAct : BaseAct() {
         initRecyclerView()
     }
 
-//    private val mAdapter = MainAdapter()
+    private val mAdapter = MainAdapter()
 
     private fun initRecyclerView() {
-//        recyclerView.apply {
-//            layoutManager = LinearLayoutManager(this@MainAct)
-//            mAdapter.bindToRecyclerView(this)
-//            addDefaultItemDecoration()
-// x         }
+        recyclerView.default(mAdapter)
     }
 
     override fun bindIntent() {
@@ -28,7 +25,7 @@ class MainAct : BaseAct() {
     }
 
     private fun setData() {
-//        listOf("商户录入","录入商户列表").let { mAdapter.setNewData(it) }
+        listOf("商户录入","录入商户列表").let { mAdapter.setNewData(it) }
     }
 
 }

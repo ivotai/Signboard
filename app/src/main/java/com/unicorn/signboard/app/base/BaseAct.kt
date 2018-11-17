@@ -1,4 +1,4 @@
-package com.unicorn.signboard.base
+package com.unicorn.signboard.app.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +13,11 @@ abstract class BaseAct : AppCompatActivity(), ActOrFra {
         setContentView(layoutId)
         initViews()
         bindIntent()
+        registerEvent()
+    }
+
+    override fun registerEvent() {
+        // do nothing
     }
 
 }
