@@ -53,8 +53,7 @@ object AppTime {
                     val newRequest = chain.request().newBuilder()
                         .addHeader(Key.cookie, "${Key.session}=${AppTime.session}")
                         .build()
-                    val newResponse = chain.proceed(newRequest)
-                    return@addInterceptor newResponse
+                    return@addInterceptor chain.proceed(newRequest)
                 }
                 .build()
         }

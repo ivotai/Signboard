@@ -1,4 +1,4 @@
-package com.unicorn.signboard.custom.ui
+package com.unicorn.signboard.app.custom.ui
 
 import android.content.Context
 import android.graphics.Color

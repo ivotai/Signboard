@@ -4,7 +4,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.unicorn.signboard.custom.ui.TitleBar
+    <com.unicorn.signboard.app.custom.ui.TitleBar
             android:id="@+id/titleBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
