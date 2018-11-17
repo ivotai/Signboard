@@ -2,13 +2,14 @@ package com.unicorn.signboard.login
 
 import com.google.gson.Gson
 import com.unicorn.signboard.app.AppTime
+import com.unicorn.signboard.app.ConfigUtils
 import com.unicorn.signboard.login.model.LoginResponse
 import okhttp3.Request
 
 class LoginHelper {
 
     fun loginByToken() {
-        val url = "https://kjgk.natapp4.cc/signboard/login/keep?token=${AppTime.loginResponse.loginToken}"
+        val url = "${ConfigUtils.baseUrl}login/keep?token=${AppTime.loginResponse.loginToken}"
         val request = Request.Builder()
             .url(url)
             .build()

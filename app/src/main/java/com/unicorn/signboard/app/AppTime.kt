@@ -14,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object AppTime {
 
-    val session: String
+    private val session: String
         get() {
             return loginResponse.session
         }
