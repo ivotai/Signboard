@@ -1,4 +1,4 @@
-package com.unicorn.signboard.app
+package com.unicorn.signboard.app.adapter
 
 import android.view.View
 import com.chad.library.adapter.base.BaseViewHolder

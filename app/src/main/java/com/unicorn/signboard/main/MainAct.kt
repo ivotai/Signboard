@@ -25,7 +25,7 @@ class MainAct : BaseAct() {
     }
 
     private fun setData() {
-        listOf("商户录入","录入商户列表").let { mAdapter.setNewData(it) }
+        listOf("商户录入", "已录入商户列表").let { mAdapter.setNewData(it) }
     }
 
 }
