@@ -3,8 +3,8 @@ package com.unicorn.signboard.app
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
 import com.unicorn.signboard.app.api.UniqueApi
+import com.unicorn.signboard.area.model.Area
 import com.unicorn.signboard.login.model.LoginResponse
-import com.unicorn.signboard.merchant.add.Obj
 import com.unicorn.signboard.merchant.model.Dict
 import com.unicorn.signboard.operateType.model.OperateType
 import okhttp3.OkHttpClient
@@ -23,7 +23,7 @@ object AppTime {
 
     lateinit var dict: Dict
 
-    lateinit var areaList: List<Obj>
+    lateinit var areaList: List<Area>
 
     lateinit var operateTypeList: List<OperateType>
 

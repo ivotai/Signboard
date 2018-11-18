@@ -1,6 +1,7 @@
 package com.unicorn.signboard.app.api
 
 import com.unicorn.signboard.app.base.Page
+import com.unicorn.signboard.area.model.Area
 import com.unicorn.signboard.login.model.LoginParam
 import com.unicorn.signboard.login.model.LoginResponse
 import com.unicorn.signboard.login.model.VerifyCodeResponse
@@ -44,7 +45,7 @@ interface UniqueApi {
     fun getHotOperateType(): Observable<List<OperateType>>
 
     @GET(value = "api/v1/sign/area")
-    fun getArea(): Observable<List<Obj>>
+    fun getArea(): Observable<List<Area>>
 
     // 匹配
     @GET(value = "api/v1/sign/merchant/matching")

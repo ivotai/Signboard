@@ -16,8 +16,10 @@ import com.unicorn.signboard.R
 import com.unicorn.signboard.app.*
 import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.app.util.DialogUitls
-import com.unicorn.signboard.operateType.ui.OperateTypeAct
+import com.unicorn.signboard.area.model.Area
+import com.unicorn.signboard.area.ui.AreaAct
 import com.unicorn.signboard.operateType.model.OperateType
+import com.unicorn.signboard.operateType.ui.OperateTypeAct
 import com.zhy.http.okhttp.OkHttpUtils
 import com.zhy.http.okhttp.callback.StringCallback
 import io.reactivex.functions.Consumer
@@ -73,6 +75,7 @@ class AddMerchantAct : BaseAct() {
         }
         prepareOperateStatus()
         tvOperateType.safeClicks().subscribe { startActivity(Intent(this, OperateTypeAct::class.java)) }
+        tvArea.safeClicks().subscribe { startActivity(Intent(this, AreaAct::class.java)) }
         btnSave.safeClicks().subscribe { save() }
     }
 
@@ -168,6 +171,10 @@ class AddMerchantAct : BaseAct() {
         RxBus.registerEvent(this, OperateType::class.java, Consumer {
             merchant.operateType = Obj(objectId = it.objectId, name = it.name)
             tvOperateType.text = it.name
+        })
+        RxBus.registerEvent(this, Area::class.java, Consumer {
+            merchant.area = Obj(objectId = it.objectId, name = it.name)
+            tvArea.text = it.name
         })
     }
 
