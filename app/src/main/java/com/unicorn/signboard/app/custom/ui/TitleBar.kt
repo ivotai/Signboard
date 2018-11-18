@@ -12,24 +12,22 @@ import com.unicorn.signboard.app.safeClicks
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.title_bar.view.*
 
+@SuppressLint("CheckResult")
 class TitleBar(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs), LayoutContainer {
 
     override val containerView = this
 
     init {
         LayoutInflater.from(context).inflate(R.layout.title_bar, this, true)
-    }
-
-    @SuppressLint("CheckResult")
-    fun setTitle(title: String, hideBack: Boolean = false) {
-        tvTitle.text = title
-        if (hideBack) tvBack.visibility = View.INVISIBLE
         tvBack.safeClicks().subscribe {
             ActivityUtils.getTopActivity().finish()
         }
-        tvBack.setOnClickListener {
-            ActivityUtils.getTopActivity().finish()
-        }
+    }
+
+    fun setTitle(title: String, hideBack: Boolean = false) {
+        tvTitle.text = title
+        if (hideBack) tvBack.visibility = View.INVISIBLE
+
     }
 
 }

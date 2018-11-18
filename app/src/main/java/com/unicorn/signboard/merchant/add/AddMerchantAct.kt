@@ -3,16 +3,22 @@ package com.unicorn.signboard.merchant.add
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.view.Gravity
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import com.afollestad.materialdialogs.MaterialDialog
+import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.unicorn.signboard.R
-import com.unicorn.signboard.app.AppTime
-import com.unicorn.signboard.app.ConfigUtils
+import com.unicorn.signboard.app.*
 import com.unicorn.signboard.app.base.BaseAct
-import com.unicorn.signboard.app.safeClicks
+import com.unicorn.signboard.app.util.DialogUitls
 import com.zhy.http.okhttp.OkHttpUtils
 import com.zhy.http.okhttp.callback.StringCallback
+import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.act_add_merchant.*
 import okhttp3.Call
 import java.io.File
@@ -36,8 +42,70 @@ class AddMerchantAct : BaseAct() {
                 .openCamera(PictureMimeType.ofImage())
                 .forResult(requestCode)
         }
+        tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
         ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
         ivName.safeClicks().subscribe { openCamera(RequestCode.NAME) }
+        fun prepareOperateStatus() {
+            AppTime.dict.OperateStatus.forEachIndexed { index, obj ->
+                RadioButton(this).apply {
+                    id = index
+                    text = obj.name
+                    gravity = Gravity.CENTER
+                    val padding = ConvertUtils.dp2px(16f)
+                    setPadding(padding, 0, padding, 0)
+                    buttonDrawable = null
+                    layoutParams = RadioGroup.LayoutParams(
+                        RadioGroup.LayoutParams.WRAP_CONTENT,
+                        RadioGroup.LayoutParams.WRAP_CONTENT
+                    )
+                    segmented.addView(this)
+                }
+            }
+            segmented.updateBackground()
+            segmented.setOnCheckedChangeListener { _, checkedId ->
+                merchant.operateStatus = AppTime.dict.OperateStatus[checkedId]
+            }
+            segmented.check(0)
+        }
+        prepareOperateStatus()
+        btnSave.safeClicks().subscribe { save() }
+    }
+
+    private fun matchingAddress(address: String) {
+        fun render(selector: Merchant) {
+            selector.apply {
+                // TODO 暂时只加载地址，名称，业态，街道
+                merchant.address = address
+                merchant.name = name
+                merchant.operateType = operateType
+                merchant.area = area
+                etAddress.setText(address)
+                etName.setText(name)
+                operateType?.name.let { tvOperateType.text = it }
+                area?.name.let { tvArea.text = it }
+            }
+        }
+
+        fun showMerchantListDialog(merchantList: List<Merchant>) {
+            MaterialDialog.Builder(this).items(merchantList.map { it.name })
+                .itemsCallback { _, _, position, _ -> render(merchantList[position]) }
+                .show()
+        }
+
+        val mask = DialogUitls.showMask(this, "匹配地址中...")
+        AppTime.api.matchingAddress(address).observeOnMain(this).subscribeBy(
+            onNext = {
+                mask.dismiss()
+                if (it.isEmpty()) {
+                    ToastUtils.showShort("无匹配信息")
+                    return@subscribeBy
+                }
+                showMerchantListDialog(it)
+            },
+            onError = {
+                mask.dismiss()
+            }
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -74,6 +142,10 @@ class AddMerchantAct : BaseAct() {
                 override fun onError(call: Call?, e: Exception?, id: Int) {
                 }
             })
+    }
+
+    private fun save() {
+        ToastUtils.showShort(merchant.toString())
     }
 
 }
