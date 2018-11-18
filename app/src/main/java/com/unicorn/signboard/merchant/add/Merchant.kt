@@ -11,11 +11,11 @@ data class Merchant(
     var operateType: Obj? = null,
     var operateStatus: Obj? = null,
     var area: Obj? = null,
-    var storeCount: Int = 0,
+    var storeCount: Int = 1,
     val region: Obj? = null,
     var coordinateX: Double = 0.0,
     var coordinateY: Double = 0.0,
-    val signBoardList: List<SignBoard>? = null
+    val signBoardList: List<SignBoard> = ArrayList<SignBoard>().apply { add(SignBoard()) }
 )
 
 class Obj(

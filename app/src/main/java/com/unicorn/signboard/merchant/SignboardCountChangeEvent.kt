@@ -1,0 +1,3 @@
+package com.unicorn.signboard.merchant
+
+class SignboardCountChangeEvent

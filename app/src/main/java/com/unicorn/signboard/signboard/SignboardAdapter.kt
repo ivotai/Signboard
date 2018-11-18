@@ -2,14 +2,30 @@ package com.unicorn.signboard.signboard
 
 import android.view.View
 import com.bumptech.glide.Glide
+import com.jakewharton.rxbinding2.widget.textChanges
 import com.unicorn.signboard.R
+import com.unicorn.signboard.app.RxBus
 import com.unicorn.signboard.app.adapter.MyAdapter
 import com.unicorn.signboard.app.adapter.MyHolder
+import com.unicorn.signboard.app.safeClicks
+import com.unicorn.signboard.merchant.SignboardCountChangeEvent
 import kotlinx.android.synthetic.main.item_signboard.*
 
 class SignboardAdapter : MyAdapter<SignBoard, MyHolder>(R.layout.item_signboard) {
 
     override fun bindIntent(helper: MyHolder, viewType: Int) {
+        helper.apply {
+            ivDelete.safeClicks().subscribe {
+                remove(adapterPosition)
+                RxBus.post(SignboardCountChangeEvent())
+            }
+            tvHeight.textChanges().filter { it.isNotBlank() }.map { it.toString().toInt() }.subscribe {
+                mData[helper.adapterPosition].height = it
+            }
+            tvWidth.textChanges().filter { it.isNotBlank() }.map { it.toString().toInt() }.subscribe {
+                mData[helper.adapterPosition].width = it
+            }
+        }
     }
 
     override fun convert(helper: MyHolder, item: SignBoard) {

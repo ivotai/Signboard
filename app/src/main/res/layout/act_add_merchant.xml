@@ -230,7 +230,7 @@
                     android:textSize="17dp"/>
 
             <ImageView
-                    android:id="@+id/addZpxx"
+                    android:id="@+id/addSignboard"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="16dp"

@@ -21,6 +21,7 @@ import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.app.util.DialogUitls
 import com.unicorn.signboard.area.model.Area
 import com.unicorn.signboard.area.ui.AreaAct
+import com.unicorn.signboard.merchant.SignboardCountChangeEvent
 import com.unicorn.signboard.operateType.model.OperateType
 import com.unicorn.signboard.operateType.ui.OperateTypeAct
 import com.unicorn.signboard.signboard.SignBoard
@@ -40,23 +41,8 @@ class AddMerchantAct : BaseAct() {
 
     override fun initViews() {
         titleBar.setTitle("商户录入")
-    }
-
-    val merchant = Merchant()
-    val signboardAdapter = SignboardAdapter()
-
-    override fun bindIntent() {
-        // TODO 百度地图定位
-        tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
-        tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
-        fun openCamera(requestCode: Int) {
-            PictureSelector.create(this)
-                .openCamera(PictureMimeType.ofImage())
-                .forResult(requestCode)
-        }
-        ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
-        ivName.safeClicks().subscribe { openCamera(RequestCode.NAME) }
-        fun prepareOperateStatus() {
+        etStoreCount.setText(merchant.storeCount.toString())
+        fun initOperateStatus() {
             AppTime.dict.OperateStatus.forEachIndexed { index, obj ->
                 RadioButton(this).apply {
                     id = index
@@ -78,27 +64,48 @@ class AddMerchantAct : BaseAct() {
             }
             segmented.check(0)
         }
-        prepareOperateStatus()
-        tvOperateType.safeClicks().subscribe { startActivity(Intent(this, OperateTypeAct::class.java)) }
-        tvArea.safeClicks().subscribe { startActivity(Intent(this, AreaAct::class.java)) }
-        etStoreCount.textChanges().filter { it.isNotEmpty() }.map { it.toString().toInt() }
-            .subscribe { merchant.storeCount = it }
-        fun refreshSignboardCount() {
-            tvSignboardCount.text = "${signboardAdapter.data.size}"
-        }
-
+        initOperateStatus()
         fun initSignboard() {
             recyclerView.apply {
                 layoutManager = LinearLayoutManager(this@AddMerchantAct, LinearLayoutManager.HORIZONTAL, false)
                 PagerSnapHelper().attachToRecyclerView(this)
                 signboardAdapter.bindToRecyclerView(this)
             }
-            ArrayList<SignBoard>().apply { add(SignBoard()) }.let { signboardAdapter.setNewData(it) }
+            signboardAdapter.setNewData(merchant.signBoardList)
             refreshSignboardCount()
         }
         initSignboard()
+    }
+
+    private val merchant = Merchant()
+    private val signboardAdapter = SignboardAdapter()
+
+    override fun bindIntent() {
+        // TODO 百度地图定位
+        tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
+        tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
+        fun openCamera(requestCode: Int) {
+            PictureSelector.create(this)
+                .openCamera(PictureMimeType.ofImage())
+                .forResult(requestCode)
+        }
+        ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
+        ivName.safeClicks().subscribe { openCamera(RequestCode.NAME) }
+        tvOperateType.safeClicks().subscribe { startActivity(Intent(this, OperateTypeAct::class.java)) }
+        tvArea.safeClicks().subscribe { startActivity(Intent(this, AreaAct::class.java)) }
+        etStoreCount.textChanges().filter { it.isNotEmpty() }.map { it.toString().toInt() }
+            .subscribe { merchant.storeCount = it }
+        addSignboard.safeClicks(this).subscribe {
+            signboardAdapter.addData(SignBoard())
+            refreshSignboardCount()
+            recyclerView.scrollToPosition(signboardAdapter.data.size - 1)
+        }
 
         btnSave.safeClicks().subscribe { saveMerchant() }
+    }
+
+    private fun refreshSignboardCount() {
+        tvSignboardCount.text = "${signboardAdapter.data.size}"
     }
 
     private fun matchingAddress(address: String) {
@@ -197,6 +204,9 @@ class AddMerchantAct : BaseAct() {
         RxBus.registerEvent(this, Area::class.java, Consumer {
             merchant.area = Obj(objectId = it.objectId, name = it.name)
             tvArea.text = it.name
+        })
+        RxBus.registerEvent(this, SignboardCountChangeEvent::class.java, Consumer {
+            refreshSignboardCount()
         })
     }
 
