@@ -16,7 +16,7 @@ import com.unicorn.signboard.R
 import com.unicorn.signboard.app.*
 import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.app.util.DialogUitls
-import com.unicorn.signboard.operateType.OperateTypeAct
+import com.unicorn.signboard.operateType.ui.OperateTypeAct
 import com.unicorn.signboard.operateType.model.OperateType
 import com.zhy.http.okhttp.OkHttpUtils
 import com.zhy.http.okhttp.callback.StringCallback

@@ -1,4 +1,4 @@
-package com.unicorn.signboard.operateType
+package com.unicorn.signboard.operateType.ui
 
 import android.app.Activity
 import android.widget.TextView

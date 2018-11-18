@@ -3,7 +3,7 @@ package com.unicorn.signboard.operateType.model
 import com.chad.library.adapter.base.entity.IExpandable
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.unicorn.signboard.app.AppTime
-import com.unicorn.signboard.operateType.OperateTypeAdapter
+import com.unicorn.signboard.operateType.ui.OperateTypeAdapter
 
 data class Category(
         val category: String,
