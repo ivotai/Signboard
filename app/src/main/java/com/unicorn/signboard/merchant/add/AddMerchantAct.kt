@@ -16,8 +16,11 @@ import com.unicorn.signboard.R
 import com.unicorn.signboard.app.*
 import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.app.util.DialogUitls
+import com.unicorn.signboard.operateType.OperateTypeAct
+import com.unicorn.signboard.operateType.model.OperateType
 import com.zhy.http.okhttp.OkHttpUtils
 import com.zhy.http.okhttp.callback.StringCallback
+import io.reactivex.functions.Consumer
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.act_add_merchant.*
 import okhttp3.Call
@@ -69,6 +72,7 @@ class AddMerchantAct : BaseAct() {
             segmented.check(0)
         }
         prepareOperateStatus()
+        tvOperateType.safeClicks().subscribe { startActivity(Intent(this, OperateTypeAct::class.java)) }
         btnSave.safeClicks().subscribe { save() }
     }
 
@@ -158,6 +162,13 @@ class AddMerchantAct : BaseAct() {
                 override fun onError(call: Call?, e: Exception?, id: Int) {
                 }
             })
+    }
+
+    override fun registerEvent() {
+        RxBus.registerEvent(this, OperateType::class.java, Consumer {
+            merchant.operateType = Obj(objectId = it.objectId, name = it.name)
+            tvOperateType.text = it.name
+        })
     }
 
     private fun save() {

@@ -7,7 +7,7 @@ import com.unicorn.signboard.login.model.VerifyCodeResponse
 import com.unicorn.signboard.merchant.add.Merchant
 import com.unicorn.signboard.merchant.add.Obj
 import com.unicorn.signboard.merchant.model.Dict
-import com.unicorn.signboard.merchant.model.OperateType
+import com.unicorn.signboard.operateType.model.OperateType
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*

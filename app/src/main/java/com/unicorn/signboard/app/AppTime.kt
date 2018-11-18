@@ -6,7 +6,7 @@ import com.unicorn.signboard.app.api.UniqueApi
 import com.unicorn.signboard.login.model.LoginResponse
 import com.unicorn.signboard.merchant.add.Obj
 import com.unicorn.signboard.merchant.model.Dict
-import com.unicorn.signboard.merchant.model.OperateType
+import com.unicorn.signboard.operateType.model.OperateType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
