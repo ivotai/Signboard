@@ -43,6 +43,7 @@ class AddMerchantAct : BaseAct() {
                 .forResult(requestCode)
         }
         tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
+        tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
         ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
         ivName.safeClicks().subscribe { openCamera(RequestCode.NAME) }
         fun prepareOperateStatus() {
@@ -92,7 +93,7 @@ class AddMerchantAct : BaseAct() {
                 .show()
         }
 
-        val mask = DialogUitls.showMask(this, "匹配地址中...")
+        val mask = DialogUitls.showMask(this, "匹配门牌地址中...")
         AppTime.api.matchingAddress(address).observeOnMain(this).subscribeBy(
             onNext = {
                 mask.dismiss()
@@ -101,6 +102,21 @@ class AddMerchantAct : BaseAct() {
                     return@subscribeBy
                 }
                 showMerchantListDialog(it)
+            },
+            onError = {
+                mask.dismiss()
+            }
+        )
+    }
+
+    private fun matchingName(name: String) {
+        // TODO 有问题
+        val mask = DialogUitls.showMask(this, "匹配商户名称中...")
+        AppTime.api.matchingName(name).observeOnMain(this).subscribeBy(
+            onNext = {
+                mask.dismiss()
+                merchant.operateType = it
+                tvOperateType.text = it.name
             },
             onError = {
                 mask.dismiss()

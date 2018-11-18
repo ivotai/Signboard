@@ -46,12 +46,12 @@ interface UniqueApi {
     @GET(value = "api/v1/sign/area")
     fun getArea(): Observable<List<Obj>>
 
-    // 匹配地址
+    // 匹配
     @GET(value = "api/v1/sign/merchant/matching")
     fun matchingAddress(@Query("address") address: String): Observable<List<Merchant>>
-//
-//    @GET(value = "api/v1/sign/operateType/matching")
-//    fun matchingOperateType(@Query("keyword") keyword: String): Observable<Obj>
+
+    @GET(value = "api/v1/sign/operateType/matching")
+    fun matchingName(@Query("keyword") keyword: String): Observable<Obj>
 //
 //    @Headers("Merchant-Type: application/json")
 //    @POST("api/v1/sign/merchant")
