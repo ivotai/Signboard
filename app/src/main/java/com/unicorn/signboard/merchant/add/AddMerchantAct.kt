@@ -3,10 +3,11 @@ package com.unicorn.signboard.merchant.add
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import com.blankj.utilcode.util.ToastUtils
+import com.bumptech.glide.Glide
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.unicorn.signboard.R
+import com.unicorn.signboard.app.AppTime
 import com.unicorn.signboard.app.ConfigUtils
 import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.app.safeClicks
@@ -34,52 +35,46 @@ class AddMerchantAct : BaseAct() {
     }
 
     private fun preparePhoto() {
+        fun openCamera(requestCode: Int) {
+            PictureSelector.create(this)
+                .openCamera(PictureMimeType.ofImage())
+                .forResult(requestCode)
+        }
         ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
-    }
-
-    private fun openCamera(requestCode: Int) {
-        PictureSelector.create(this)
-            .openCamera(PictureMimeType.ofImage())
-            .forResult(requestCode)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) return
         val path = PictureSelector.obtainMultipleResult(data)[0].path
-        uploadAndDisplayPicture(requestCode, path)
+        uploadImage(path = path, requestCode = requestCode)
     }
 
-    private fun uploadAndDisplayPicture(requestCode: Int, path: String) {
-        val file = File(path)
-//        val requestBody = RequestBody.create(MediaType.parse("image/png"), file)
-//        val part = MultipartBody.Part.createFormData("attachment", path, requestBody)
-//        val requestOptions = RequestOptions().placeholder(R.mipmap.add_photo)
-
-        OkHttpUtils.post()//
-            .addFile("attachment", path, file)//
+    private fun uploadImage(path: String, requestCode: Int) {
+        Glide.with(this).load(path).into(ivAddress)
+        OkHttpUtils.post()
+            .addFile("attachment", path, File(path))
             .url("${ConfigUtils.baseUrl}api/v1/system/file/upload")
-            .build()//
-            .execute(object :StringCallback(){
+            .build()
+            .execute(object : StringCallback() {
                 override fun onResponse(response: String, id: Int) {
-                    ToastUtils.showShort(response)
+                    val uploadResponse = AppTime.gson.fromJson(response, UploadResponse::class.java)
+                    copeResponse(uploadResponse, requestCode)
+                }
+
+                override fun inProgress(progress: Float, total: Long, id: Int) {
+                    ivAddress.setProgress((progress * 100).toInt())
                 }
 
                 override fun onError(call: Call?, e: Exception?, id: Int) {
-                    ToastUtils.showShort("error")
                 }
             })
-
-
-//        AppTime.api.upload(part).observeOnMain(this).subscribe {
-//            when (requestCode) {
-//                RequestCode.ADDRESS -> {
-//                    merchant.houseNumberPicture = it
-//                    Glide.with(this).setDefaultRequestOptions(requestOptions).load(it.filename).into(ivAddress)
-//                }
-//            }
-//        }
     }
 
+    private fun copeResponse(uploadResponse: UploadResponse, requestCode: Int) {
+        when (requestCode) {
+            RequestCode.ADDRESS -> merchant.houseNumberPicture = uploadResponse
+        }
+    }
 
 }

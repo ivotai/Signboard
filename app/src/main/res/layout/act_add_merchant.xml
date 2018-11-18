@@ -59,7 +59,7 @@
                     android:text="匹配"
                     android:textColor="@color/md_white"/>
 
-            <ImageView
+            <com.unicorn.signboard.merchant.add.ProgressImageView
                     android:id="@+id/ivAddress"
                     android:layout_width="56dp"
                     android:layout_height="56dp"

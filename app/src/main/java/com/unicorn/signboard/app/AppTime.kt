@@ -1,10 +1,11 @@
 package com.unicorn.signboard.app
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.google.gson.Gson
 import com.unicorn.signboard.app.api.UniqueApi
 import com.unicorn.signboard.login.model.LoginResponse
-import com.unicorn.signboard.merchant.model.Dict
 import com.unicorn.signboard.merchant.add.Obj
+import com.unicorn.signboard.merchant.model.Dict
 import com.unicorn.signboard.merchant.model.OperateType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -35,6 +36,8 @@ object AppTime {
     lateinit var retrofit: Retrofit
 
     lateinit var api: UniqueApi
+
+    val gson = Gson()
 
     fun init() {
         fun initClient() {
@@ -75,20 +78,7 @@ object AppTime {
         initRetrofit()
 
         api = retrofit.create(UniqueApi::class.java)
-
-        initOther()
     }
 
-    fun initOther() {
-
-//        fun getDict() {
-//            ComponentHolder.appComponent.getSingleApi().getDict()
-//                .subscribeOn(Schedulers.io())
-//                .subscribe {
-//                    AppTime.dict = it
-//                }
-//        }
-//        getDict()
-    }
 }
 
