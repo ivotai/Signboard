@@ -4,11 +4,13 @@ import com.unicorn.signboard.app.base.Page
 import com.unicorn.signboard.login.model.LoginParam
 import com.unicorn.signboard.login.model.LoginResponse
 import com.unicorn.signboard.login.model.VerifyCodeResponse
-import com.unicorn.signboard.merchant.model.Dict
 import com.unicorn.signboard.merchant.add.Merchant
 import com.unicorn.signboard.merchant.add.Obj
+import com.unicorn.signboard.merchant.add.UploadResponse
+import com.unicorn.signboard.merchant.model.Dict
 import com.unicorn.signboard.merchant.model.OperateType
 import io.reactivex.Observable
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -46,15 +48,17 @@ interface UniqueApi {
     @GET(value = "api/v1/sign/area")
     fun getArea(): Observable<List<Obj>>
 
+    // 上传
+    @Multipart
+    @POST("api/v1/system/file/upload")
+    fun upload(@Part attachment: MultipartBody.Part): Observable<UploadResponse>
+
+
 //    @GET(value = "api/v1/sign/merchant/matching")
 //    fun getMerchantInfo(@Query("address") address: String): Observable<List<MerchantInfo>>
 //
 //    @GET(value = "api/v1/sign/operateType/matching")
 //    fun matchingOperateType(@Query("keyword") keyword: String): Observable<Obj>
-//
-//    @Multipart
-//    @POST("api/v1/system/file/upload")
-//    fun uploadPicture(@Part attachment: MultipartBody.Part): Observable<UploadResponse>
 //
 //    @Headers("Merchant-Type: application/json")
 //    @POST("api/v1/sign/merchant")
