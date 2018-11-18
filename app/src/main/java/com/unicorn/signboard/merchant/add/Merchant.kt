@@ -4,6 +4,7 @@ data class Merchant(
     val address: String = "",
     var houseNumberPicture: UploadResponse? = null,
     val name: String = "",
+    var facadePicture: UploadResponse? = null,
     val area: Obj? = null,
     var coordinateX: Double = 0.0,
     var coordinateY: Double = 0.0,

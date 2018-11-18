@@ -1,16 +1,13 @@
-package com.unicorn.signboard.merchant.add;
+package com.unicorn.signboard.app.custom.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import androidx.appcompat.widget.AppCompatImageView;
-import com.unicorn.signboard.R;
 
 public class ProgressImageView extends AppCompatImageView {
 
@@ -19,10 +16,6 @@ public class ProgressImageView extends AppCompatImageView {
     private  int mEndColor;//开始的颜色
 
     private  int mStartColor;//结束的颜色
-
-    private  int mTextColor;//文字颜色
-
-    private  int mTextSize;// 文字大小
 
     private Paint mPaint;// 画笔
 
@@ -41,14 +34,10 @@ public class ProgressImageView extends AppCompatImageView {
     public ProgressImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mContext = context;
-        TypedArray typedArray=context.obtainStyledAttributes(attrs,R.styleable.ProgressImageView);
-        mTextSize= typedArray.getDimensionPixelSize(R.styleable.ProgressImageView_progressTextSize, (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP, 16, getResources().getDisplayMetrics()));
-        mTextColor=typedArray.getColor(R.styleable.ProgressImageView_progressTextColor,Color.GREEN);
-        mStartColor=typedArray.getColor(R.styleable.ProgressImageView_progressStartColor,Color.parseColor("#70000000"));
-        mEndColor=typedArray.getColor(R.styleable.ProgressImageView_progressEndColor,Color.parseColor("#00000000"));
-        mType=typedArray.getInt(R.styleable.ProgressImageView_progressType,3);
-        typedArray.recycle();
+           mStartColor=Color.parseColor("#70000000");
+        mEndColor=Color.parseColor("#00000000");
+        mType=3;
+
         mPaint = new Paint();
         mPaint.setAntiAlias(true); // 消除锯齿
         mPaint.setStyle(Paint.Style.FILL);
@@ -134,8 +123,6 @@ public class ProgressImageView extends AppCompatImageView {
 
         canvas.drawRect(endLeft, endTop,endRight, endBootom, mPaint);
 
-        mPaint.setTextSize(mTextSize);//设置文字大小
-        mPaint.setColor(mTextColor);// 设置文字颜色
         mPaint.setStrokeWidth(2);//画笔宽
         Rect rect = new Rect();//创建区域
         mPaint.getTextBounds("100%", 0, "100%".length(), rect);// 测量最大文字的宽度

@@ -2,6 +2,7 @@ package com.unicorn.signboard.merchant.add
 
 object RequestCode {
 
-    val ADDRESS = 1
+    const val ADDRESS = 1
+    const val NAME = 2
 
 }

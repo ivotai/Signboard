@@ -31,27 +31,26 @@ class AddMerchantAct : BaseAct() {
 
     override fun bindIntent() {
         // TODO 百度地图定位
-        preparePhoto()
-    }
-
-    private fun preparePhoto() {
         fun openCamera(requestCode: Int) {
             PictureSelector.create(this)
                 .openCamera(PictureMimeType.ofImage())
                 .forResult(requestCode)
         }
         ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
+        ivName.safeClicks().subscribe { openCamera(RequestCode.NAME) }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) return
-        val path = PictureSelector.obtainMultipleResult(data)[0].path
-        uploadImage(path = path, requestCode = requestCode)
+        if (resultCode == Activity.RESULT_OK)
+            displayImageAndUpload(path = PictureSelector.obtainMultipleResult(data)[0].path, requestCode = requestCode)
     }
 
-    private fun uploadImage(path: String, requestCode: Int) {
-        Glide.with(this).load(path).into(ivAddress)
+    private fun displayImageAndUpload(path: String, requestCode: Int) {
+        when (requestCode) {
+            RequestCode.ADDRESS -> Glide.with(this).load(path).into(ivAddress)
+            RequestCode.NAME -> Glide.with(this).load(path).into(ivName)
+        }
         OkHttpUtils.post()
             .addFile("attachment", path, File(path))
             .url("${ConfigUtils.baseUrl}api/v1/system/file/upload")
@@ -59,22 +58,22 @@ class AddMerchantAct : BaseAct() {
             .execute(object : StringCallback() {
                 override fun onResponse(response: String, id: Int) {
                     val uploadResponse = AppTime.gson.fromJson(response, UploadResponse::class.java)
-                    copeResponse(uploadResponse, requestCode)
+                    when (requestCode) {
+                        RequestCode.ADDRESS -> merchant.houseNumberPicture = uploadResponse
+                        RequestCode.NAME -> merchant.facadePicture = uploadResponse
+                    }
                 }
 
                 override fun inProgress(progress: Float, total: Long, id: Int) {
-                    ivAddress.setProgress((progress * 100).toInt())
+                    when (requestCode) {
+                        RequestCode.ADDRESS -> ivAddress.setProgress((progress * 100).toInt())
+                        RequestCode.NAME -> ivName.setProgress((progress * 100).toInt())
+                    }
                 }
 
                 override fun onError(call: Call?, e: Exception?, id: Int) {
                 }
             })
-    }
-
-    private fun copeResponse(uploadResponse: UploadResponse, requestCode: Int) {
-        when (requestCode) {
-            RequestCode.ADDRESS -> merchant.houseNumberPicture = uploadResponse
-        }
     }
 
 }

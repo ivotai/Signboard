@@ -59,7 +59,7 @@
                     android:text="匹配"
                     android:textColor="@color/md_white"/>
 
-            <com.unicorn.signboard.merchant.add.ProgressImageView
+            <com.unicorn.signboard.app.custom.ui.ProgressImageView
                     android:id="@+id/ivAddress"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
@@ -86,7 +86,7 @@
                     android:textSize="17dp"/>
 
             <EditText
-                    android:id="@+id/etShmc"
+                    android:id="@+id/etName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -109,8 +109,8 @@
                     android:text="匹配"
                     android:textColor="@color/md_white"/>
 
-            <ImageView
-                    android:id="@+id/ivShmc"
+            <com.unicorn.signboard.app.custom.ui.ProgressImageView
+                    android:id="@+id/ivName"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_marginStart="12dp"
