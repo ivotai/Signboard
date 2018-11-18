@@ -1,6 +1,5 @@
 package com.unicorn.signboard.app
 
-import android.content.Context
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
@@ -24,6 +23,7 @@ fun <T, K : BaseViewHolder> RecyclerView.default(adapter:BaseQuickAdapter<T,K>){
         adapter.bindToRecyclerView(this)
         addDefaultItemDecoration()
 }
+
 
 fun View.safeClicks(lifecycleOwner: LifecycleOwner): Observable<Unit> = this.safeClicks()
         .compose(RxLifecycle.disposeOnDestroy(lifecycleOwner))

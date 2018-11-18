@@ -6,6 +6,8 @@ import android.content.Intent
 import android.view.Gravity
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
@@ -21,6 +23,8 @@ import com.unicorn.signboard.area.model.Area
 import com.unicorn.signboard.area.ui.AreaAct
 import com.unicorn.signboard.operateType.model.OperateType
 import com.unicorn.signboard.operateType.ui.OperateTypeAct
+import com.unicorn.signboard.signboard.SignBoard
+import com.unicorn.signboard.signboard.SignboardAdapter
 import com.zhy.http.okhttp.OkHttpUtils
 import com.zhy.http.okhttp.callback.StringCallback
 import io.reactivex.functions.Consumer
@@ -28,7 +32,6 @@ import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.act_add_merchant.*
 import okhttp3.Call
 import java.io.File
-
 
 @SuppressLint("CheckResult")
 class AddMerchantAct : BaseAct() {
@@ -40,6 +43,7 @@ class AddMerchantAct : BaseAct() {
     }
 
     val merchant = Merchant()
+    val signboardAdapter = SignboardAdapter()
 
     override fun bindIntent() {
         // TODO 百度地图定位
@@ -79,6 +83,20 @@ class AddMerchantAct : BaseAct() {
         tvArea.safeClicks().subscribe { startActivity(Intent(this, AreaAct::class.java)) }
         etStoreCount.textChanges().filter { it.isNotEmpty() }.map { it.toString().toInt() }
             .subscribe { merchant.storeCount = it }
+        fun refreshSignboardCount() {
+            tvSignboardCount.text = "${signboardAdapter.data.size}"
+        }
+
+        fun initSignboard() {
+            recyclerView.apply {
+                layoutManager = LinearLayoutManager(this@AddMerchantAct, LinearLayoutManager.HORIZONTAL, false)
+                PagerSnapHelper().attachToRecyclerView(this)
+                signboardAdapter.bindToRecyclerView(this)
+            }
+            ArrayList<SignBoard>().apply { add(SignBoard()) }.let { signboardAdapter.setNewData(it) }
+            refreshSignboardCount()
+        }
+        initSignboard()
 
         btnSave.safeClicks().subscribe { saveMerchant() }
     }

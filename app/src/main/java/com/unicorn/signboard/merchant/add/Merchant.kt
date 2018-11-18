@@ -1,5 +1,7 @@
 package com.unicorn.signboard.merchant.add
 
+import com.unicorn.signboard.signboard.SignBoard
+
 data class Merchant(
 //    val objectId: String,
     var address: String = "",
@@ -13,18 +15,7 @@ data class Merchant(
     val region: Obj? = null,
     var coordinateX: Double = 0.0,
     var coordinateY: Double = 0.0,
-    val signBoardList: List<SignBoardInfo>? = null
-)
-
-data class SignBoardInfo(
-    val externalDistance: Obj,
-    val height: Any,
-    val material: Obj,
-    val objectId: String,
-    val picture: Any,
-    val setupType: Obj,
-    val type: Obj,
-    val width: Int
+    val signBoardList: List<SignBoard>? = null
 )
 
 class Obj(
