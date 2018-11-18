@@ -10,6 +10,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
+import com.jakewharton.rxbinding2.widget.textChanges
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.unicorn.signboard.R
@@ -42,13 +43,13 @@ class AddMerchantAct : BaseAct() {
 
     override fun bindIntent() {
         // TODO 百度地图定位
+        tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
+        tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
         fun openCamera(requestCode: Int) {
             PictureSelector.create(this)
                 .openCamera(PictureMimeType.ofImage())
                 .forResult(requestCode)
         }
-        tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
-        tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
         ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
         ivName.safeClicks().subscribe { openCamera(RequestCode.NAME) }
         fun prepareOperateStatus() {
@@ -76,7 +77,10 @@ class AddMerchantAct : BaseAct() {
         prepareOperateStatus()
         tvOperateType.safeClicks().subscribe { startActivity(Intent(this, OperateTypeAct::class.java)) }
         tvArea.safeClicks().subscribe { startActivity(Intent(this, AreaAct::class.java)) }
-        btnSave.safeClicks().subscribe { save() }
+        etStoreCount.textChanges().filter { it.isNotEmpty() }.map { it.toString().toInt() }
+            .subscribe { merchant.storeCount = it }
+
+        btnSave.safeClicks().subscribe { saveMerchant() }
     }
 
     private fun matchingAddress(address: String) {
@@ -178,7 +182,7 @@ class AddMerchantAct : BaseAct() {
         })
     }
 
-    private fun save() {
+    private fun saveMerchant() {
         ToastUtils.showShort(merchant.toString())
     }
 

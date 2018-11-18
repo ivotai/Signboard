@@ -246,7 +246,7 @@
                     android:textSize="17dp"/>
 
             <EditText
-                    android:id="@+id/etSjsl"
+                    android:id="@+id/etStoreCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
