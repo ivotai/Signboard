@@ -12,5 +12,6 @@ data class SignBoard(
     var externalDistance: Obj = AppTime.dict.SignBoardExternalDistance[0],
     var width: Int = 0,     // 长度
     var height: Int = 0,    // 高度
-    var picture: UploadResponse? = null
+    var picture: UploadResponse? = null,
+    var externalDistancePicture: UploadResponse? = null
 )

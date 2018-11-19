@@ -27,6 +27,7 @@ import com.unicorn.signboard.operateType.model.OperateType
 import com.unicorn.signboard.operateType.ui.OperateTypeAct
 import com.unicorn.signboard.signboard.SignBoard
 import com.unicorn.signboard.signboard.SignboardAdapter
+import com.unicorn.signboard.signboard.TakeExternalDistancePhoto
 import com.unicorn.signboard.signboard.TakePhotoEvent
 import com.zhy.http.okhttp.OkHttpUtils
 import com.zhy.http.okhttp.callback.StringCallback
@@ -88,6 +89,7 @@ class AddMerchantAct : BaseAct() {
     private val merchant = Merchant()
     private val signboardAdapter = SignboardAdapter()
     private lateinit var takePhotoEvent: TakePhotoEvent
+    private lateinit var takeExternalDistancePhoto: TakeExternalDistancePhoto
 
     override fun bindIntent() {
         // TODO 百度地图定位
@@ -174,11 +176,32 @@ class AddMerchantAct : BaseAct() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             val path = PictureSelector.obtainMultipleResult(data)[0].path
-            if (requestCode == RequestCode.SIGNBOARD)
-                uploadSignboardPicture(path)
-            else
-                displayImageAndUpload(path, requestCode)
+            when (requestCode) {
+                RequestCode.SIGNBOARD -> uploadSignboardPicture(path)
+                RequestCode.ExternalDistance -> uploadExternalDistancePhoto(path)
+                else -> displayImageAndUpload(path, requestCode)
+            }
         }
+    }
+
+    private fun uploadExternalDistancePhoto(path: String) {
+        val mask = DialogUtils.showMask(this, "上传照片中...")
+        OkHttpUtils.post()
+            .addFile("attachment", path, File(path))
+            .url("${ConfigUtils.baseUrl}api/v1/system/file/upload")
+            .build()
+            .execute(object : StringCallback() {
+                override fun onResponse(response: String, id: Int) {
+                    mask.dismiss()
+                    ToastUtils.showShort("上传完成")
+                    val uploadResponse = AppTime.gson.fromJson(response, UploadResponse::class.java)
+                    merchant.signBoardList[takeExternalDistancePhoto.position].externalDistancePicture = uploadResponse
+                }
+
+                override fun onError(call: Call?, e: Exception?, id: Int) {
+                    mask.dismiss()
+                }
+            })
     }
 
     private fun uploadSignboardPicture(path: String) {
@@ -190,6 +213,7 @@ class AddMerchantAct : BaseAct() {
             .execute(object : StringCallback() {
                 override fun onResponse(response: String, id: Int) {
                     mask.dismiss()
+                    ToastUtils.showShort("上传完成")
                     val uploadResponse = AppTime.gson.fromJson(response, UploadResponse::class.java)
                     merchant.signBoardList[takePhotoEvent.position].picture = uploadResponse
                     signboardAdapter.notifyItemChanged(takePhotoEvent.position)
@@ -246,6 +270,10 @@ class AddMerchantAct : BaseAct() {
         RxBus.registerEvent(this, TakePhotoEvent::class.java, Consumer {
             takePhotoEvent = it
             openCamera(RequestCode.SIGNBOARD)
+        })
+        RxBus.registerEvent(this, TakeExternalDistancePhoto::class.java, Consumer {
+            takeExternalDistancePhoto = it
+            openCamera(RequestCode.ExternalDistance)
         })
     }
 

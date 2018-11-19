@@ -55,6 +55,16 @@ class SignboardAdapter : MyAdapter<SignBoard, MyHolder>(R.layout.item_signboard)
                             mData[helper.adapterPosition].externalDistance = this
                             tvExternalDistance.text = name
                         }
+                        // 如果挑出距离大于30厘米
+                        if (position == 2) {
+                            MaterialDialog.Builder(mContext)
+                                .title("挑出距离大于30厘米，请额外拍摄招牌照片。")
+                                .positiveText("确认")
+                                .cancelable(false)
+                                .onPositive { _, _ ->
+                                    RxBus.post(TakeExternalDistancePhoto(helper.adapterPosition))
+                                }.show()
+                        }
                     }.show()
             }
             tvMaterial.safeClicks().subscribe { _ ->
