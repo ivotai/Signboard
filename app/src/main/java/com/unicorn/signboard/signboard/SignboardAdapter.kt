@@ -21,6 +21,9 @@ class SignboardAdapter : MyAdapter<SignBoard, MyHolder>(R.layout.item_signboard)
                 remove(adapterPosition)
                 RxBus.post(SignboardCountChangeEvent())
             }
+            ivPhoto.safeClicks().subscribe {
+                RxBus.post(TakePhotoEvent(helper.adapterPosition))
+            }
             tvHeight.textChanges().filter { it.isNotBlank() }.map { it.toString().toInt() }.subscribe {
                 mData[helper.adapterPosition].height = it
             }

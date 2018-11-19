@@ -11,7 +11,7 @@ import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.app.observeOnMain
 import com.unicorn.signboard.app.safeClicks
 import com.unicorn.signboard.app.trimText
-import com.unicorn.signboard.app.util.DialogUitls
+import com.unicorn.signboard.app.util.DialogUtils
 import com.unicorn.signboard.login.model.LoginParam
 import com.unicorn.signboard.main.ui.MainAct
 import io.reactivex.Observable
@@ -48,7 +48,7 @@ class LoginAct : BaseAct() {
                 return@subscribe
             }
             fun login(loginParam: LoginParam) {
-                val mask = DialogUitls.showMask(this, "登录中...")
+                val mask = DialogUtils.showMask(this, "登录中...")
                 AppTime.api.login(loginParam).observeOnMain(this).subscribeBy(
                     onNext = {
                         mask.dismiss()

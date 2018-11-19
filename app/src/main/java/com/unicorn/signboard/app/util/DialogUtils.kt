@@ -3,7 +3,7 @@ package com.unicorn.signboard.app.util
 import android.content.Context
 import com.afollestad.materialdialogs.MaterialDialog
 
-class DialogUitls {
+class DialogUtils {
 
     companion object {
 
@@ -11,6 +11,7 @@ class DialogUitls {
             return MaterialDialog.Builder(context)
                 .title(title)
                 .progress(true, 100)
+                .cancelable(false)
                 .show()
         }
 

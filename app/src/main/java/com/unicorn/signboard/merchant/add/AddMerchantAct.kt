@@ -18,7 +18,7 @@ import com.luck.picture.lib.config.PictureMimeType
 import com.unicorn.signboard.R
 import com.unicorn.signboard.app.*
 import com.unicorn.signboard.app.base.BaseAct
-import com.unicorn.signboard.app.util.DialogUitls
+import com.unicorn.signboard.app.util.DialogUtils
 import com.unicorn.signboard.area.model.Area
 import com.unicorn.signboard.area.ui.AreaAct
 import com.unicorn.signboard.merchant.SignboardCountChangeEvent
@@ -26,6 +26,7 @@ import com.unicorn.signboard.operateType.model.OperateType
 import com.unicorn.signboard.operateType.ui.OperateTypeAct
 import com.unicorn.signboard.signboard.SignBoard
 import com.unicorn.signboard.signboard.SignboardAdapter
+import com.unicorn.signboard.signboard.TakePhotoEvent
 import com.zhy.http.okhttp.OkHttpUtils
 import com.zhy.http.okhttp.callback.StringCallback
 import io.reactivex.functions.Consumer
@@ -79,16 +80,12 @@ class AddMerchantAct : BaseAct() {
 
     private val merchant = Merchant()
     private val signboardAdapter = SignboardAdapter()
+    private lateinit var takePhotoEvent: TakePhotoEvent
 
     override fun bindIntent() {
         // TODO 百度地图定位
         tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
         tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
-        fun openCamera(requestCode: Int) {
-            PictureSelector.create(this)
-                .openCamera(PictureMimeType.ofImage())
-                .forResult(requestCode)
-        }
         ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
         ivName.safeClicks().subscribe { openCamera(RequestCode.NAME) }
         tvOperateType.safeClicks().subscribe { startActivity(Intent(this, OperateTypeAct::class.java)) }
@@ -102,6 +99,12 @@ class AddMerchantAct : BaseAct() {
         }
 
         btnSave.safeClicks().subscribe { saveMerchant() }
+    }
+
+    private fun openCamera(requestCode: Int) {
+        PictureSelector.create(this)
+            .openCamera(PictureMimeType.ofImage())
+            .forResult(requestCode)
     }
 
     private fun refreshSignboardCount() {
@@ -129,7 +132,7 @@ class AddMerchantAct : BaseAct() {
                 .show()
         }
 
-        val mask = DialogUitls.showMask(this, "匹配门牌地址中...")
+        val mask = DialogUtils.showMask(this, "匹配门牌地址中...")
         AppTime.api.matchingAddress(address).observeOnMain(this).subscribeBy(
             onNext = {
                 mask.dismiss()
@@ -147,7 +150,7 @@ class AddMerchantAct : BaseAct() {
 
     private fun matchingName(name: String) {
         // TODO 有问题
-        val mask = DialogUitls.showMask(this, "匹配商户名称中...")
+        val mask = DialogUtils.showMask(this, "匹配商户名称中...")
         AppTime.api.matchingName(name).observeOnMain(this).subscribeBy(
             onNext = {
                 mask.dismiss()
@@ -162,8 +165,33 @@ class AddMerchantAct : BaseAct() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK)
-            displayImageAndUpload(path = PictureSelector.obtainMultipleResult(data)[0].path, requestCode = requestCode)
+        if (resultCode == Activity.RESULT_OK) {
+            val path = PictureSelector.obtainMultipleResult(data)[0].path
+            if (requestCode == RequestCode.SIGNBOARD)
+                uploadSignboardPicture(path)
+            else
+                displayImageAndUpload(path, requestCode)
+        }
+    }
+
+    private fun uploadSignboardPicture(path: String) {
+        val mask = DialogUtils.showMask(this, "上传招牌照片中...")
+        OkHttpUtils.post()
+            .addFile("attachment", path, File(path))
+            .url("${ConfigUtils.baseUrl}api/v1/system/file/upload")
+            .build()
+            .execute(object : StringCallback() {
+                override fun onResponse(response: String, id: Int) {
+                    mask.dismiss()
+                    val uploadResponse = AppTime.gson.fromJson(response, UploadResponse::class.java)
+                    merchant.signBoardList[takePhotoEvent.position].picture = uploadResponse
+                    signboardAdapter.notifyItemChanged(takePhotoEvent.position)
+                }
+
+                override fun onError(call: Call?, e: Exception?, id: Int) {
+                    mask.dismiss()
+                }
+            })
     }
 
     private fun displayImageAndUpload(path: String, requestCode: Int) {
@@ -207,6 +235,10 @@ class AddMerchantAct : BaseAct() {
         })
         RxBus.registerEvent(this, SignboardCountChangeEvent::class.java, Consumer {
             refreshSignboardCount()
+        })
+        RxBus.registerEvent(this, TakePhotoEvent::class.java, Consumer {
+            takePhotoEvent = it
+            openCamera(RequestCode.SIGNBOARD)
         })
     }
 

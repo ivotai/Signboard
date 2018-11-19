@@ -6,7 +6,7 @@ import com.unicorn.signboard.app.AppTime
 import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.app.default
 import com.unicorn.signboard.app.observeOnMain
-import com.unicorn.signboard.app.util.DialogUitls
+import com.unicorn.signboard.app.util.DialogUtils
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.title_recycler.*
 
@@ -37,7 +37,7 @@ class MainAct : BaseAct() {
     @SuppressLint("CheckResult")
     private fun prepareData() {
         val api = AppTime.api
-        val mask = DialogUitls.showMask(this, "获取数据中...")
+        val mask = DialogUtils.showMask(this, "获取数据中...")
         api.getDict()
             .flatMap {
                 AppTime.dict = it
