@@ -27,6 +27,9 @@ interface UniqueApi {
     @GET(value = "login/keep")
     fun loginByToken(@Query("token") token: String): Call<LoginResponse>
 
+    @GET(value = "login/keep")
+    fun loginByToken2(@Query("token") token: String): Observable<LoginResponse>
+
     // 商户列表
     @GET(value = "api/v1/sign/merchant")
     fun getDict(

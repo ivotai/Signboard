@@ -5,5 +5,6 @@ object Key{
     const val cookie = "Cookie"
     const val session = "SESSION"
     const val area = "area"
+    const val token = "token"
 
 }

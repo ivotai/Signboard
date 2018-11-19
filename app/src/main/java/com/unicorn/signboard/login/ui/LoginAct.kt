@@ -5,12 +5,10 @@ import android.content.Intent
 import android.text.TextUtils
 import androidx.core.content.ContextCompat
 import com.blankj.utilcode.util.ToastUtils
+import com.github.florent37.rxsharedpreferences.RxSharedPreferences
 import com.unicorn.signboard.R
-import com.unicorn.signboard.app.AppTime
+import com.unicorn.signboard.app.*
 import com.unicorn.signboard.app.base.BaseAct
-import com.unicorn.signboard.app.observeOnMain
-import com.unicorn.signboard.app.safeClicks
-import com.unicorn.signboard.app.trimText
 import com.unicorn.signboard.app.util.DialogUtils
 import com.unicorn.signboard.login.model.LoginParam
 import com.unicorn.signboard.main.ui.MainAct
@@ -30,7 +28,24 @@ class LoginAct : BaseAct() {
         etVerifyCode.setText("123456")
     }
 
+    private fun loginIfHasToken() {
+        RxSharedPreferences.with(this).getString(Key.token, "").subscribe { token ->
+            if (token.isEmpty()) return@subscribe
+            AppTime.api.loginByToken2(token).observeOnMain(this).subscribe {
+                if (!it.success) {
+                    ToastUtils.showShort(it.message)
+                    return@subscribe
+                }
+                AppTime.loginResponse = it
+                RxSharedPreferences.with(this@LoginAct).putString(Key.token, it.loginToken).subscribe()
+                startActivity(Intent(this@LoginAct, MainAct::class.java))
+                finish()
+            }
+        }
+    }
+
     override fun bindIntent() {
+        loginIfHasToken()
         btnLoginClicks()
         tvVerifyCodeClicks()
     }
@@ -57,6 +72,7 @@ class LoginAct : BaseAct() {
                             return@subscribeBy
                         }
                         AppTime.loginResponse = it
+                        RxSharedPreferences.with(this@LoginAct).putString(Key.token, it.loginToken).subscribe()
                         startActivity(Intent(this@LoginAct, MainAct::class.java))
                         finish()
                     },
@@ -102,14 +118,5 @@ class LoginAct : BaseAct() {
                 )
         }
     }
-
-//    private fun getOperateType() {
-//        api.getOperateType().subscribeOn(Schedulers.io()).subscribe {
-//            AppTime.operateTypeList = it
-//        }
-//        singleApi.getHotOperateType().subscribeOn(Schedulers.io()).subscribe {
-//            AppTime.hotOperateTypeList = it
-//        }
-//    }
 
 }
