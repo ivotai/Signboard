@@ -1,6 +1,7 @@
 package com.unicorn.signboard.merchant.add
 
 import com.unicorn.signboard.signboard.SignBoard
+import java.io.Serializable
 
 data class Merchant(
 //    val objectId: String,
@@ -21,4 +22,4 @@ data class Merchant(
 class Obj(
     val objectId: String,
     val name: String
-)
+):Serializable

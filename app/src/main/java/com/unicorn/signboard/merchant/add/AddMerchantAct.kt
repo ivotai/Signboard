@@ -77,6 +77,12 @@ class AddMerchantAct : BaseAct() {
             refreshSignboardCount()
         }
         initSignboard()
+
+        val area = intent.getSerializableExtra(Key.area) as Obj?
+        area?.let {
+            merchant.area = it
+            tvArea.text = it.name
+        }
     }
 
     private val merchant = Merchant()
@@ -291,8 +297,10 @@ class AddMerchantAct : BaseAct() {
                     } else {
                         ToastUtils.showShort(it.message)
                     }
-//                    startActivity(Intent(this@DemoAct,DemoAct::class.java))
-//                    finish()
+                    startActivity(Intent(this@AddMerchantAct, AddMerchantAct::class.java).apply {
+                        putExtra(Key.area, merchant.area)
+                    })
+                    finish()
                 },
                 onError = {
                     mask.dismiss()
