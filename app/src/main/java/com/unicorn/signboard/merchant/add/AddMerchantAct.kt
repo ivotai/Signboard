@@ -10,6 +10,10 @@ import android.widget.RadioGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.afollestad.materialdialogs.MaterialDialog
+import com.baidu.location.BDAbstractLocationListener
+import com.baidu.location.BDLocation
+import com.baidu.location.LocationClient
+import com.baidu.location.LocationClientOption
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
@@ -92,6 +96,25 @@ class AddMerchantAct : BaseAct() {
     private lateinit var takeExternalDistancePhoto: TakeExternalDistancePhoto
 
     override fun bindIntent() {
+        fun getLocation() {
+            val option = LocationClientOption().apply {
+                setCoorType("bd09ll")
+                isOpenGps = true
+                isLocationNotify = true
+            }
+            val client = LocationClient(this).apply { locOption = option }
+            client.registerLocationListener(object : BDAbstractLocationListener() {
+                override fun onReceiveLocation(location: BDLocation) {
+                    val longitude = location.longitude      //获取经度信息
+                    val latitude = location.latitude        //获取纬度信息
+                    merchant.coordinateX = longitude
+                    merchant.coordinateY = latitude
+                }
+            })
+            client.start()
+        }
+        getLocation()
+
         // TODO 百度地图定位
         tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
         tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
