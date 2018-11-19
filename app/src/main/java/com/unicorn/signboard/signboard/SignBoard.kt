@@ -6,10 +6,10 @@ import com.unicorn.signboard.merchant.add.UploadResponse
 
 data class SignBoard(
 //    val objectId: String,
-    val type: Obj = AppTime.dict.SignBoardType[0],
-    val setupType: Obj = AppTime.dict.SignBoardSetupType[0],
-    val material: Obj = AppTime.dict.SignBoardMaterial[0],
-    val externalDistance: Obj = AppTime.dict.SignBoardExternalDistance[0],
+    var type: Obj = AppTime.dict.SignBoardType[0],
+    var setupType: Obj = AppTime.dict.SignBoardSetupType[0],
+    var material: Obj = AppTime.dict.SignBoardMaterial[0],
+    var externalDistance: Obj = AppTime.dict.SignBoardExternalDistance[0],
     var width: Int = 0,     // 长度
     var height: Int = 0,    // 高度
     val picture: UploadResponse? = null

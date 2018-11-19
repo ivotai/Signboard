@@ -1,9 +1,11 @@
 package com.unicorn.signboard.signboard
 
 import android.view.View
+import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding2.widget.textChanges
 import com.unicorn.signboard.R
+import com.unicorn.signboard.app.AppTime
 import com.unicorn.signboard.app.RxBus
 import com.unicorn.signboard.app.adapter.MyAdapter
 import com.unicorn.signboard.app.adapter.MyHolder
@@ -24,6 +26,42 @@ class SignboardAdapter : MyAdapter<SignBoard, MyHolder>(R.layout.item_signboard)
             }
             tvWidth.textChanges().filter { it.isNotBlank() }.map { it.toString().toInt() }.subscribe {
                 mData[helper.adapterPosition].width = it
+            }
+            tvType.safeClicks().subscribe { _ ->
+                MaterialDialog.Builder(mContext).items(AppTime.dict.SignBoardType.map { it.name })
+                    .itemsCallback { _, _, position, _ ->
+                        AppTime.dict.SignBoardType[position].apply {
+                            mData[helper.adapterPosition].type = this
+                            tvType.text = name
+                        }
+                    }.show()
+            }
+            tvSetupType.safeClicks().subscribe { _ ->
+                MaterialDialog.Builder(mContext).items(AppTime.dict.SignBoardSetupType.map { it.name })
+                    .itemsCallback { _, _, position, _ ->
+                        AppTime.dict.SignBoardSetupType[position].apply {
+                            mData[helper.adapterPosition].setupType = this
+                            tvSetupType.text = name
+                        }
+                    }.show()
+            }
+            tvExternalDistance.safeClicks().subscribe { _ ->
+                MaterialDialog.Builder(mContext).items(AppTime.dict.SignBoardExternalDistance.map { it.name })
+                    .itemsCallback { _, _, position, _ ->
+                        AppTime.dict.SignBoardExternalDistance[position].apply {
+                            mData[helper.adapterPosition].externalDistance = this
+                            tvExternalDistance.text = name
+                        }
+                    }.show()
+            }
+            tvMaterial.safeClicks().subscribe { _ ->
+                MaterialDialog.Builder(mContext).items(AppTime.dict.SignBoardMaterial.map { it.name })
+                    .itemsCallback { _, _, position, _ ->
+                        AppTime.dict.SignBoardMaterial[position].apply {
+                            mData[helper.adapterPosition].material = this
+                            tvMaterial.text = name
+                        }
+                    }.show()
             }
         }
     }
