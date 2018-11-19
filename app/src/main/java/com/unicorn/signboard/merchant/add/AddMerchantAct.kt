@@ -3,6 +3,7 @@ package com.unicorn.signboard.merchant.add
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.text.TextUtils
 import android.view.Gravity
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -243,7 +244,60 @@ class AddMerchantAct : BaseAct() {
     }
 
     private fun saveMerchant() {
-        ToastUtils.showShort(merchant.toString())
+        merchant.apply {
+            address = etAddress.trimText()
+            name = etName.trimText()
+
+            if (TextUtils.isEmpty(address)) {
+                ToastUtils.showShort("门牌地址不能为空")
+                return
+            }
+            if (houseNumberPicture == null) {
+                ToastUtils.showShort("请拍摄门牌地址照片")
+                return
+            }
+            if (TextUtils.isEmpty(name)) {
+                ToastUtils.showShort("商户名称不能为空")
+                return
+            }
+            if (facadePicture == null) {
+                ToastUtils.showShort("请拍摄商户名称照片")
+                return
+            }
+            if (operateType == null) {
+                ToastUtils.showShort("经营业态不能为空")
+                return
+            }
+            if (area == null) {
+                ToastUtils.showShort("所属街道不能为空")
+                return
+            }
+            for (signboard in signBoardList) {
+                signboard.apply {
+                    if (picture == null) {
+                        ToastUtils.showShort("招牌照片不能为空")
+                        return
+                    }
+                }
+            }
+        }
+        val mask = DialogUtils.showMask(this, "保存数据中...")
+        AppTime.api.saveMerchant(merchant).observeOnMain(this)
+            .subscribeBy(
+                onNext = {
+                    mask.dismiss()
+                    if (it.success) {
+                        ToastUtils.showShort("保存成功")
+                    } else {
+                        ToastUtils.showShort(it.message)
+                    }
+//                    startActivity(Intent(this@DemoAct,DemoAct::class.java))
+//                    finish()
+                },
+                onError = {
+                    mask.dismiss()
+                }
+            )
     }
 
 }

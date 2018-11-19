@@ -2,6 +2,7 @@ package com.unicorn.signboard.app.api
 
 import com.unicorn.signboard.app.base.Page
 import com.unicorn.signboard.area.model.Area
+import com.unicorn.signboard.login.model.BaseResponse
 import com.unicorn.signboard.login.model.LoginParam
 import com.unicorn.signboard.login.model.LoginResponse
 import com.unicorn.signboard.login.model.VerifyCodeResponse
@@ -53,9 +54,9 @@ interface UniqueApi {
 
     @GET(value = "api/v1/sign/operateType/matching")
     fun matchingName(@Query("keyword") keyword: String): Observable<Obj>
-//
-//    @Headers("Merchant-Type: application/json")
-//    @POST("api/v1/sign/merchant")
-//    fun saveInfo(@Body saveInfo: SaveInfo): Observable<Any>
+
+    @Headers("Merchant-Type: application/json")
+    @POST("api/v1/sign/merchant")
+    fun saveMerchant(@Body merchant: Merchant): Observable<BaseResponse>
 
 }
