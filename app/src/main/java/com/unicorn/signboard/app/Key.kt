@@ -6,5 +6,6 @@ object Key{
     const val session = "SESSION"
     const val area = "area"
     const val token = "token"
+    const val logout = "logout"
 
 }

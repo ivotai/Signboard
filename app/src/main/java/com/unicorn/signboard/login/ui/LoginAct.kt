@@ -29,6 +29,8 @@ class LoginAct : BaseAct() {
     }
 
     private fun loginIfHasToken() {
+        val logout = intent.getBooleanExtra(Key.logout, false)
+        if (logout) return
         RxSharedPreferences.with(this).getString(Key.token, "").subscribe { token ->
             if (token.isEmpty()) return@subscribe
             AppTime.api.loginByToken2(token).observeOnMain(this).subscribe {

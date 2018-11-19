@@ -31,7 +31,7 @@ class MainAct : BaseAct() {
     }
 
     private fun setData() {
-        listOf("商户录入", "商户列表").let { mAdapter.setNewData(it) }
+        listOf("商户录入", "商户列表", "退出").let { mAdapter.setNewData(it) }
     }
 
     @SuppressLint("CheckResult")
