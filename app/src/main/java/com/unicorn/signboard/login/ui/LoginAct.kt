@@ -23,9 +23,6 @@ class LoginAct : BaseAct() {
     override val layoutId = R.layout.act_login
 
     override fun initViews() {
-        // TODO DELETE
-        etPhoneNo.setText("13611840324")
-        etVerifyCode.setText("123456")
     }
 
     private fun loginIfHasToken() {

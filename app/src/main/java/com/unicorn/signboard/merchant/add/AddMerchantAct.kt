@@ -96,26 +96,6 @@ class AddMerchantAct : BaseAct() {
     private lateinit var takeExternalDistancePhoto: TakeExternalDistancePhoto
 
     override fun bindIntent() {
-        fun getLocation() {
-            val option = LocationClientOption().apply {
-                setCoorType("bd09ll")
-                isOpenGps = true
-                isLocationNotify = true
-            }
-            val client = LocationClient(this).apply { locOption = option }
-            client.registerLocationListener(object : BDAbstractLocationListener() {
-                override fun onReceiveLocation(location: BDLocation) {
-                    val longitude = location.longitude      //获取经度信息
-                    val latitude = location.latitude        //获取纬度信息
-                    merchant.coordinateX = longitude
-                    merchant.coordinateY = latitude
-                }
-            })
-            client.start()
-        }
-        getLocation()
-
-        // TODO 百度地图定位
         tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
         tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
         ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
@@ -130,7 +110,24 @@ class AddMerchantAct : BaseAct() {
             recyclerView.scrollToPosition(signboardAdapter.data.size - 1)
         }
 
-        btnSave.safeClicks().subscribe { saveMerchant() }
+        btnSave.safeClicks().subscribe {
+            val option = LocationClientOption().apply {
+                setCoorType("bd09ll")
+                isOpenGps = true
+                isLocationNotify = true
+            }
+            val client = LocationClient(this).apply { locOption = option }
+            client.registerLocationListener(object : BDAbstractLocationListener() {
+                override fun onReceiveLocation(location: BDLocation) {
+                    val longitude = location.longitude      //获取经度信息
+                    val latitude = location.latitude        //获取纬度信息
+                    merchant.coordinateX = longitude
+                    merchant.coordinateY = latitude
+                    saveMerchant()
+                }
+            })
+            client.start()
+        }
     }
 
     private fun openCamera(requestCode: Int) {
