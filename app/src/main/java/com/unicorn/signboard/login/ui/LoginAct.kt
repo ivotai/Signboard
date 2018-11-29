@@ -110,18 +110,23 @@ class LoginAct : BaseAct() {
             Observable.interval(0, 1, TimeUnit.SECONDS)
                 .take(count + 1)
                 .map { count - it }
+                .observeOnMain(this)
                 .doOnSubscribe {
                     getVerifyCode(phoneNo)
                     tvVerifyCode.setOnClickListener(null)
                     tvVerifyCode.setBackgroundColor(ContextCompat.getColor(this@LoginAct, R.color.md_grey_300))
                 }
-                .observeOnMain(this)
                 .subscribeBy(
-                    onNext = { tvVerifyCode.text = "已发送(${it}秒)" },
+                    onNext = {
+                        tvVerifyCode.text = "已发送(${it}秒)"
+                    },
                     onComplete = {
                         tvVerifyCode.text = "获取验证码"
                         tvVerifyCode.setBackgroundColor(ContextCompat.getColor(this@LoginAct, R.color.md_green_400))
                         tvVerifyCodeClicks()
+                    },
+                    onError = {
+                        ToastUtils.showShort("")
                     }
                 )
         }
