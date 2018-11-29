@@ -2,10 +2,7 @@ package com.unicorn.signboard.app.api
 
 import com.unicorn.signboard.app.base.Page
 import com.unicorn.signboard.area.model.Area
-import com.unicorn.signboard.login.model.BaseResponse
-import com.unicorn.signboard.login.model.LoginParam
-import com.unicorn.signboard.login.model.LoginResponse
-import com.unicorn.signboard.login.model.VerifyCodeResponse
+import com.unicorn.signboard.login.model.*
 import com.unicorn.signboard.merchant.add.Merchant
 import com.unicorn.signboard.merchant.add.Obj
 import com.unicorn.signboard.merchant.model.Dict
@@ -65,9 +62,12 @@ interface UniqueApi {
     @POST("api/v1/sign/merchant")
     fun saveMerchant(@Body merchant: Merchant): Observable<BaseResponse>
 
-    //
+    // 删除 & 检查更新
 
     @DELETE("api/v1/sign/merchant/{objectId}")
     fun delete(@Path("objectId") objectId: String): Observable<BaseResponse>
+
+    @GET(value = "public/checkUpdate")
+    fun checkUpdate(@Query("id") id: String,@Query("version") version: String): Observable<CheckUpdateResponse>
 
 }
