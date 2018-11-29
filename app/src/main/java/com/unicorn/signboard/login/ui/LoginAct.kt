@@ -23,6 +23,8 @@ class LoginAct : BaseAct() {
     override val layoutId = R.layout.act_login
 
     override fun initViews() {
+        etPhoneNo.setText("13611840424")
+        etVerifyCode.setText("123")
     }
 
     private fun loginIfHasToken() {
@@ -30,16 +32,23 @@ class LoginAct : BaseAct() {
         if (logout) return
         RxSharedPreferences.with(this).getString(Key.token, "").subscribe { token ->
             if (token.isEmpty()) return@subscribe
-            AppTime.api.loginByToken2(token).observeOnMain(this).subscribe {
-                if (!it.success) {
-                    ToastUtils.showShort(it.message)
-                    return@subscribe
-                }
-                AppTime.loginResponse = it
-                RxSharedPreferences.with(this@LoginAct).putString(Key.token, it.loginToken).subscribe()
-                startActivity(Intent(this@LoginAct, MainAct::class.java))
-                finish()
-            }
+
+            val mask = DialogUtils.showMask(this@LoginAct, "登录中...")
+            AppTime.api.loginByToken2(token).observeOnMain(this).subscribeBy(
+                onNext = {
+                    mask.dismiss()
+                    if (!it.success) {
+                        ToastUtils.showShort(it.message)
+                        return@subscribeBy
+                    }
+                    AppTime.loginResponse = it
+                    RxSharedPreferences.with(this@LoginAct).putString(Key.token, it.loginToken).subscribe()
+                    startActivity(Intent(this@LoginAct, MainAct::class.java))
+                    finish()
+                },
+                onError = {
+                    mask.dismiss()
+                })
         }
     }
 
@@ -50,7 +59,7 @@ class LoginAct : BaseAct() {
     }
 
     private fun btnLoginClicks() {
-        btnLogin.safeClicks().subscribe { _ ->
+        btnLogin.safeClicks().subscribe {
             val phoneNo = etPhoneNo.trimText()
             if (TextUtils.isEmpty(phoneNo)) {
                 ToastUtils.showShort("手机号不能为空")

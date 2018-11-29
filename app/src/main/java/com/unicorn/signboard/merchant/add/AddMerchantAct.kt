@@ -291,10 +291,10 @@ class AddMerchantAct : BaseAct() {
             takePhotoEvent = it
             openCamera(RequestCode.SIGNBOARD)
         })
-        RxBus.registerEvent(this, TakeExternalDistancePhoto::class.java, Consumer {
-            takeExternalDistancePhoto = it
-            openCamera(RequestCode.ExternalDistance)
-        })
+//        RxBus.registerEvent(this, TakeExternalDistancePhoto::class.java, Consumer {
+//            takeExternalDistancePhoto = it
+//            openCamera(RequestCode.ExternalDistance)
+//        })
     }
 
     private fun saveMerchant() {

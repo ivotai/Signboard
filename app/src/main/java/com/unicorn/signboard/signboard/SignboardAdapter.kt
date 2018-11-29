@@ -3,7 +3,6 @@ package com.unicorn.signboard.signboard
 import android.view.View
 import com.afollestad.materialdialogs.MaterialDialog
 import com.bumptech.glide.Glide
-import com.jakewharton.rxbinding2.widget.textChanges
 import com.unicorn.signboard.R
 import com.unicorn.signboard.app.AppTime
 import com.unicorn.signboard.app.RxBus
@@ -24,13 +23,7 @@ class SignboardAdapter : MyAdapter<SignBoard, MyHolder>(R.layout.item_signboard)
             ivPhoto.safeClicks().subscribe {
                 RxBus.post(TakePhotoEvent(helper.adapterPosition))
             }
-            tvHeight.textChanges().filter { it.isNotBlank() }.map { it.toString().toInt() }.subscribe {
-                mData[helper.adapterPosition].height = it
-            }
-            tvWidth.textChanges().filter { it.isNotBlank() }.map { it.toString().toInt() }.subscribe {
-                mData[helper.adapterPosition].width = it
-            }
-            tvType.safeClicks().subscribe { _ ->
+            tvType.safeClicks().subscribe {
                 MaterialDialog.Builder(mContext).items(AppTime.dict.SignBoardType.map { it.name })
                     .itemsCallback { _, _, position, _ ->
                         AppTime.dict.SignBoardType[position].apply {
@@ -39,7 +32,7 @@ class SignboardAdapter : MyAdapter<SignBoard, MyHolder>(R.layout.item_signboard)
                         }
                     }.show()
             }
-            tvSetupType.safeClicks().subscribe { _ ->
+            tvSetupType.safeClicks().subscribe {
                 MaterialDialog.Builder(mContext).items(AppTime.dict.SignBoardSetupType.map { it.name })
                     .itemsCallback { _, _, position, _ ->
                         AppTime.dict.SignBoardSetupType[position].apply {
@@ -48,31 +41,19 @@ class SignboardAdapter : MyAdapter<SignBoard, MyHolder>(R.layout.item_signboard)
                         }
                     }.show()
             }
-            tvExternalDistance.safeClicks().subscribe { _ ->
+            tvStructure.safeClicks().subscribe {
+                MaterialDialog.Builder(mContext).items(listOf("有", "无"))
+                    .itemsCallback { _, _, position, _ ->
+                        mData[helper.adapterPosition].structure = listOf(1, 0)[position]
+                        tvStructure.text = listOf("有", "无")[position]
+                    }.show()
+            }
+            tvExternalDistance.safeClicks().subscribe {
                 MaterialDialog.Builder(mContext).items(AppTime.dict.SignBoardExternalDistance.map { it.name })
                     .itemsCallback { _, _, position, _ ->
                         AppTime.dict.SignBoardExternalDistance[position].apply {
                             mData[helper.adapterPosition].externalDistance = this
                             tvExternalDistance.text = name
-                        }
-                        // 如果挑出距离大于30厘米
-                        if (position == 2) {
-                            MaterialDialog.Builder(mContext)
-                                .title("挑出距离大于30厘米，请额外拍摄招牌照片。")
-                                .positiveText("确认")
-                                .cancelable(false)
-                                .onPositive { _, _ ->
-                                    RxBus.post(TakeExternalDistancePhoto(helper.adapterPosition))
-                                }.show()
-                        }
-                    }.show()
-            }
-            tvMaterial.safeClicks().subscribe { _ ->
-                MaterialDialog.Builder(mContext).items(AppTime.dict.SignBoardMaterial.map { it.name })
-                    .itemsCallback { _, _, position, _ ->
-                        AppTime.dict.SignBoardMaterial[position].apply {
-                            mData[helper.adapterPosition].material = this
-                            tvMaterial.text = name
                         }
                     }.show()
             }
@@ -89,10 +70,8 @@ class SignboardAdapter : MyAdapter<SignBoard, MyHolder>(R.layout.item_signboard)
             ivDelete.visibility = if (adapterPosition == 0) View.INVISIBLE else View.VISIBLE
             tvType.text = item.type.name
             tvSetupType.text = item.setupType.name
-            tvMaterial.text = item.material.name
+            tvStructure.text = if (item.structure == 1) "有" else "无"
             tvExternalDistance.text = item.externalDistance.name
-            tvHeight.setText(item.height.toString())   // 高度
-            tvWidth.setText(item.width.toString())     // 宽度
         }
     }
 
