@@ -96,8 +96,8 @@ class AddMerchantAct : BaseAct() {
     private lateinit var takeExternalDistancePhoto: TakeExternalDistancePhoto
 
     override fun bindIntent() {
-        tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
-        tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
+//        tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
+//        tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
         ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
         ivName.safeClicks().subscribe { openCamera(RequestCode.NAME) }
         tvOperateType.safeClicks().subscribe { startActivity(Intent(this, OperateTypeAct::class.java)) }
