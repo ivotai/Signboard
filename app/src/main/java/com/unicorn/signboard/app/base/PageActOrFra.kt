@@ -30,7 +30,9 @@ interface PageActOrFra<Model> : ActOrFra {
         get() = mAdapter!!.data.size / rows
 
     override fun initViews() {
-        mSwipeRefreshLayout.setOnRefreshListener { loadFirstPage() }
+        mSwipeRefreshLayout.setOnRefreshListener {
+            loadFirstPage()
+        }
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary)
         mRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)

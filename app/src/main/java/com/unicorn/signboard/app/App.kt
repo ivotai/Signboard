@@ -6,6 +6,7 @@ import com.facebook.stetho.Stetho
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import io.reactivex.plugins.RxJavaPlugins
+import net.danlew.android.joda.JodaTimeAndroid
 
 class App : Application() {
 
@@ -16,6 +17,7 @@ class App : Application() {
             Utils.init(application)
             Logger.addLogAdapter(AndroidLogAdapter())
             Stetho.initializeWithDefaults(application)
+            JodaTimeAndroid.init(application)
             AppTime.init()
             RxJavaPlugins.setErrorHandler {
                 Logger.e(it.toString())

@@ -67,6 +67,7 @@ dependencies {
     implementation 'com.zhy:okhttputils:2.6.2'
     implementation 'com.github.florent37:rxsharedpreferences:1.0.0'
     implementation files('libs/BaiduLBS_Android.jar')
+    implementation 'net.danlew:android.joda:2.10.1'
 }
 
 androidExtensions {

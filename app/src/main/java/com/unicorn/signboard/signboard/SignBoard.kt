@@ -11,5 +11,5 @@ data class SignBoard(
     var structure:Int = 1,
     var externalDistance: Obj = AppTime.dict.SignBoardExternalDistance[0],
     var picture: UploadResponse? = null,
-    var externalDistancePicture: UploadResponse? = null
+    val pictureLink:String = ""
 )

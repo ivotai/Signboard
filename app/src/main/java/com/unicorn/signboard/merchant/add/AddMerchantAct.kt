@@ -133,6 +133,7 @@ class AddMerchantAct : BaseAct() {
     private fun openCamera(requestCode: Int) {
         PictureSelector.create(this)
             .openCamera(PictureMimeType.ofImage())
+            .compress(true)
             .forResult(requestCode)
     }
 
@@ -195,34 +196,34 @@ class AddMerchantAct : BaseAct() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            val path = PictureSelector.obtainMultipleResult(data)[0].path
+            val path = PictureSelector.obtainMultipleResult(data)[0].compressPath
             when (requestCode) {
                 RequestCode.SIGNBOARD -> uploadSignboardPicture(path)
-                RequestCode.ExternalDistance -> uploadExternalDistancePhoto(path)
+//                RequestCode.ExternalDistance -> uploadExternalDistancePhoto(path)
                 else -> displayImageAndUpload(path, requestCode)
             }
         }
     }
 
-    private fun uploadExternalDistancePhoto(path: String) {
-        val mask = DialogUtils.showMask(this, "上传照片中...")
-        OkHttpUtils.post()
-            .addFile("attachment", path, File(path))
-            .url("${ConfigUtils.baseUrl}api/v1/system/file/upload")
-            .build()
-            .execute(object : StringCallback() {
-                override fun onResponse(response: String, id: Int) {
-                    mask.dismiss()
-                    ToastUtils.showShort("上传完成")
-                    val uploadResponse = AppTime.gson.fromJson(response, UploadResponse::class.java)
-                    merchant.signBoardList[takeExternalDistancePhoto.position].externalDistancePicture = uploadResponse
-                }
-
-                override fun onError(call: Call?, e: Exception?, id: Int) {
-                    mask.dismiss()
-                }
-            })
-    }
+//    private fun uploadExternalDistancePhoto(path: String) {
+//        val mask = DialogUtils.showMask(this, "上传照片中...")
+//        OkHttpUtils.post()
+//            .addFile("attachment", path, File(path))
+//            .url("${ConfigUtils.baseUrl}api/v1/system/file/upload")
+//            .build()
+//            .execute(object : StringCallback() {
+//                override fun onResponse(response: String, id: Int) {
+//                    mask.dismiss()
+//                    ToastUtils.showShort("上传完成")
+//                    val uploadResponse = AppTime.gson.fromJson(response, UploadResponse::class.java)
+//                    merchant.signBoardList[takeExternalDistancePhoto.position].externalDistancePicture = uploadResponse
+//                }
+//
+//                override fun onError(call: Call?, e: Exception?, id: Int) {
+//                    mask.dismiss()
+//                }
+//            })
+//    }
 
     private fun uploadSignboardPicture(path: String) {
         val mask = DialogUtils.showMask(this, "上传招牌照片中...")
