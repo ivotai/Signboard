@@ -52,7 +52,7 @@ class MerchantListAdapter : MyAdapter<Merchant, MyHolder>(R.layout.item_merchant
 
     override fun convert(helper: MyHolder, item: Merchant) {
         helper.apply {
-            val imageUrl = "${ConfigUtils.baseUrl}${item.facadePictureLink}!400_300"
+            val imageUrl = "${ConfigUtils.baseUrl2}${item.facadePictureLink}!400_300"
             Glide.with(mContext).load(imageUrl).into(ivImage)
             tvName.text = item.name
             tvAddress.text = item.address
