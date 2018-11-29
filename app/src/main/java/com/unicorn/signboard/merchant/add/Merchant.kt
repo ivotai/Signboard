@@ -4,7 +4,7 @@ import com.unicorn.signboard.signboard.SignBoard
 import java.io.Serializable
 
 data class Merchant(
-//    val objectId: String,
+    val objectId: String = "",
     var address: String = "",
     var houseNumberPicture: UploadResponse? = null,
     val houseNumberPictureLink: String = "",

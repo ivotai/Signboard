@@ -16,7 +16,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:text="操作"
-            android:padding="16dp"
+            android:padding="24dp"
             android:textSize="16dp"
             android:textColor="@color/md_black"
     />

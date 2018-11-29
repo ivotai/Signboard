@@ -13,6 +13,9 @@ import com.unicorn.signboard.operateType.model.OperateType
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
+import retrofit2.http.GET
+
+
 
 interface UniqueApi {
 
@@ -61,5 +64,10 @@ interface UniqueApi {
     @Headers("Merchant-Type: application/json")
     @POST("api/v1/sign/merchant")
     fun saveMerchant(@Body merchant: Merchant): Observable<BaseResponse>
+
+    //
+
+    @DELETE("api/v1/sign/merchant/{objectId}")
+    fun delete(@Path("objectId") objectId: String): Observable<BaseResponse>
 
 }
