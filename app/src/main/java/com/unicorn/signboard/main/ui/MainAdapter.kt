@@ -9,7 +9,6 @@ import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.app.safeClicks
 import com.unicorn.signboard.input.InputAct
 import com.unicorn.signboard.login.ui.LoginAct
-import com.unicorn.signboard.merchant.add.AddMerchantAct
 import com.unicorn.signboard.merchant.list.ui.MerchantListAct
 import kotlinx.android.synthetic.main.item_right_arrow.*
 

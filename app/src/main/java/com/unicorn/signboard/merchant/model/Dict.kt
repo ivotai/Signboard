@@ -6,6 +6,6 @@ data class Dict(
     val SignBoardSetupType: List<Obj>,
     val SignBoardExternalDistance: List<Obj>,
     val SignBoardType: List<Obj>,
-//    val SignBoardMaterial: List<Obj>,
+    val SignBoardHeight: List<Obj>,
     val OperateStatus: List<Obj>
 )

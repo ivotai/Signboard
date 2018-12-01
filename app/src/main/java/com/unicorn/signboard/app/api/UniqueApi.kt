@@ -2,6 +2,7 @@ package com.unicorn.signboard.app.api
 
 import com.unicorn.signboard.app.base.Page
 import com.unicorn.signboard.area.model.Area
+import com.unicorn.signboard.input.ground.Ground
 import com.unicorn.signboard.login.model.*
 import com.unicorn.signboard.merchant.add.Merchant
 import com.unicorn.signboard.merchant.add.Obj
@@ -20,7 +21,7 @@ interface UniqueApi {
     @GET(value = "public/sms/verifyCode/login")
     fun getVerifyCode(@Query("phoneNo") phoneNo: String): Observable<VerifyCodeResponse>
 
-    @Headers("Merchant-Type: application/json")
+    @Headers("Content-Type: application/json")
     @POST("login/sms")
     fun login(@Body loginInfo: LoginParam): Observable<LoginResponse>
 
@@ -58,9 +59,15 @@ interface UniqueApi {
     @GET(value = "api/v1/sign/operateType/matching")
     fun matchingName(@Query("keyword") keyword: String): Observable<Obj>
 
-    @Headers("Merchant-Type: application/json")
+    // 保存
+    @Headers("Content-Type: application/json")
     @POST("api/v1/sign/merchant")
     fun saveMerchant(@Body merchant: Merchant): Observable<BaseResponse>
+
+    @Headers("Content-Type: application/json")
+    @POST("api/v1/sign/ground")
+    fun saveGround(@Body ground:Ground): Observable<BaseResponse>
+
 
     // 删除 & 检查更新
 

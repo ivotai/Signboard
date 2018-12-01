@@ -153,35 +153,6 @@
                 android:padding="12dp">
 
             <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="经营状态"
-                    android:textColor="@color/md_grey_700"
-                    android:textSize="17dp"/>
-
-            <info.hoang8f.android.segmented.SegmentedGroup
-                    xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/segmented"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    segmentedgroup:sc_border_width="1dp"
-                    segmentedgroup:sc_corner_radius="5dp"
-                    segmentedgroup:sc_tint_color="@color/colorPrimary"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1px"
-                android:background="@color/md_white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="12dp">
-
-            <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="所属街道"
@@ -231,25 +202,6 @@
                     android:layout_marginStart="16dp"
                     android:scaleType="fitCenter"
                     android:src="@mipmap/add"/>
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="商家数量"
-                    android:textColor="@color/md_grey_700"
-                    android:textSize="17dp"/>
-
-            <EditText
-                    android:id="@+id/etStoreCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:background="@null"
-                    android:hint="商家数量"
-                    android:inputType="numberSigned"
-                    android:textColor="@color/md_grey_400"
-                    android:textSize="17dp"/>
 
         </LinearLayout>
 
