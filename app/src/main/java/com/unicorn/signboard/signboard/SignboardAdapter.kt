@@ -29,6 +29,11 @@ class SignboardAdapter : MyAdapter<SignBoard, MyHolder>(R.layout.item_signboard)
                         AppTime.dict.SignBoardType[position].apply {
                             mData[helper.adapterPosition].type = this
                             tvType.text = name
+                            // 如果选择不是门头店招
+                            if (this.name != "门头店招"){
+                                mData[helper.adapterPosition].setupType = AppTime.dict.SignBoardSetupType[0]
+                                notifyItemChanged(helper.adapterPosition)
+                            }
                         }
                     }.show()
             }

@@ -1,5 +1,6 @@
 package com.unicorn.signboard.merchant.add
 
+import com.unicorn.signboard.area.model.Area
 import com.unicorn.signboard.signboard.SignBoard
 import java.io.Serializable
 
@@ -9,11 +10,9 @@ data class Merchant(
     var houseNumberPicture: UploadResponse? = null,
     val houseNumberPictureLink: String = "",
     var name: String = "",
-//    var facadePicture: UploadResponse? = null,
-//    val facadePictureLink: String = "",
     var operateType: Obj? = null,
     var operateStatus: Obj? = null,
-    var area: Obj? = null,
+    var area: Area? = null,
     var storeCount: Int = 1,
     val region: Obj? = null,
     var coordinateX: Double = 0.0,

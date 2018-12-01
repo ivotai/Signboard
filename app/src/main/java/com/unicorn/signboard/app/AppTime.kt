@@ -29,6 +29,8 @@ object AppTime {
 
     lateinit var hotOperateTypeList: List<OperateType>
 
+    var lastArea: Area? = null
+
     //
 
     lateinit var client: OkHttpClient

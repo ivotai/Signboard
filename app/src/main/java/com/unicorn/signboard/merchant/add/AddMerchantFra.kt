@@ -9,7 +9,6 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
-import com.afollestad.materialdialogs.MaterialDialog
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
@@ -22,16 +21,16 @@ import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.unicorn.signboard.R
 import com.unicorn.signboard.app.*
-import com.unicorn.signboard.app.base.BaseAct
+import com.unicorn.signboard.app.base.BaseFra
 import com.unicorn.signboard.app.util.DialogUtils
 import com.unicorn.signboard.area.model.Area
 import com.unicorn.signboard.area.ui.AreaAct
+import com.unicorn.signboard.input.InputAct
 import com.unicorn.signboard.merchant.SignboardCountChangeEvent
 import com.unicorn.signboard.operateType.model.OperateType
 import com.unicorn.signboard.operateType.ui.OperateTypeAct
 import com.unicorn.signboard.signboard.SignBoard
 import com.unicorn.signboard.signboard.SignboardAdapter
-import com.unicorn.signboard.signboard.TakeExternalDistancePhoto
 import com.unicorn.signboard.signboard.TakePhotoEvent
 import com.zhy.http.okhttp.OkHttpUtils
 import com.zhy.http.okhttp.callback.StringCallback
@@ -46,15 +45,17 @@ import top.zibin.luban.Luban
 import java.io.File
 
 @SuppressLint("CheckResult")
-class AddMerchantAct : BaseAct() {
+class AddMerchantFra : BaseFra() {
 
-    override val layoutId = R.layout.add_merchant
+    private val merchant = Merchant()
+    private val signboardAdapter = SignboardAdapter()
+    private lateinit var takePhotoEvent: TakePhotoEvent
 
     override fun initViews() {
-        etStoreCount.setText(merchant.storeCount.toString())
+        // 初始化经营状态
         fun initOperateStatus() {
             AppTime.dict.OperateStatus.forEachIndexed { index, obj ->
-                RadioButton(this).apply {
+                RadioButton(context).apply {
                     id = index
                     text = obj.name
                     gravity = Gravity.CENTER
@@ -75,9 +76,12 @@ class AddMerchantAct : BaseAct() {
             segmented.check(0)
         }
         initOperateStatus()
+        // 初始化店家数量
+        etStoreCount.setText(merchant.storeCount.toString())
+        // 初始化招牌
         fun initSignboard() {
             recyclerView.apply {
-                layoutManager = LinearLayoutManager(this@AddMerchantAct, LinearLayoutManager.HORIZONTAL, false)
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 PagerSnapHelper().attachToRecyclerView(this)
                 signboardAdapter.bindToRecyclerView(this)
             }
@@ -85,26 +89,25 @@ class AddMerchantAct : BaseAct() {
             refreshSignboardCount()
         }
         initSignboard()
-
-//        val area = intent.getSerializableExtra(Key.area) as Obj?
-//        area?.let {
-//            merchant.area = it
-//            tvArea.text = it.name
-//        }
+        // 初始化街道
+        fun initArea() {
+            AppTime.lastArea?.let {
+                merchant.area = it
+                tvArea.text = it.name
+            }
+        }
+        initArea()
     }
 
-    private val merchant = Merchant()
-    private val signboardAdapter = SignboardAdapter()
-    private lateinit var takePhotoEvent: TakePhotoEvent
-    private lateinit var takeExternalDistancePhoto: TakeExternalDistancePhoto
+    private fun refreshSignboardCount() {
+        tvSignboardCount.text = "${signboardAdapter.data.size}"
+    }
 
     override fun bindIntent() {
-//        tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
-        tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
         ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
-//        ivName.safeClicks().subscribe { openCamera(RequestCode.NAME) }
-        tvOperateType.safeClicks().subscribe { startActivity(Intent(this, OperateTypeAct::class.java)) }
-        tvArea.safeClicks().subscribe { startActivity(Intent(this, AreaAct::class.java)) }
+        tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
+        tvOperateType.safeClicks().subscribe { startActivity(Intent(context, OperateTypeAct::class.java)) }
+        tvArea.safeClicks().subscribe { startActivity(Intent(context, AreaAct::class.java)) }
         etStoreCount.textChanges().filter { it.isNotEmpty() }.map { it.toString().toInt() }
             .subscribe { merchant.storeCount = it }
         addSignboard.safeClicks(this).subscribe {
@@ -112,20 +115,17 @@ class AddMerchantAct : BaseAct() {
             refreshSignboardCount()
             recyclerView.scrollToPosition(signboardAdapter.data.size - 1)
         }
-
         btnSave.safeClicks().subscribe {
             val option = LocationClientOption().apply {
                 setCoorType("bd09ll")
                 isOpenGps = true
                 isLocationNotify = true
             }
-            val client = LocationClient(this).apply { locOption = option }
+            val client = LocationClient(context).apply { locOption = option }
             client.registerLocationListener(object : BDAbstractLocationListener() {
                 override fun onReceiveLocation(location: BDLocation) {
-                    val longitude = location.longitude      //获取经度信息
-                    val latitude = location.latitude        //获取纬度信息
-                    merchant.coordinateX = longitude
-                    merchant.coordinateY = latitude
+                    merchant.coordinateX = location.longitude      //获取经度信息
+                    merchant.coordinateY = location.latitude        //获取纬度信息
                     saveMerchant()
                 }
             })
@@ -133,55 +133,8 @@ class AddMerchantAct : BaseAct() {
         }
     }
 
-    private fun openCamera(requestCode: Int) {
-        PictureSelector.create(this)
-            .openCamera(PictureMimeType.ofImage())
-            .forResult(requestCode)
-    }
-
-    private fun refreshSignboardCount() {
-        tvSignboardCount.text = "${signboardAdapter.data.size}"
-    }
-
-    private fun matchingAddress(address: String) {
-        fun render(selector: Merchant) {
-            selector.apply {
-                // TODO 暂时只加载地址，名称，业态，街道
-                merchant.address = address
-                merchant.name = name
-                merchant.operateType = operateType
-                merchant.area = area
-                etAddress.setText(address)
-                etName.setText(name)
-                operateType?.name.let { tvOperateType.text = it }
-                area?.name.let { tvArea.text = it }
-            }
-        }
-
-        fun showMerchantListDialog(merchantList: List<Merchant>) {
-            MaterialDialog.Builder(this).items(merchantList.map { it.name })
-                .itemsCallback { _, _, position, _ -> render(merchantList[position]) }
-                .show()
-        }
-
-        val mask = DialogUtils.showMask(this, "匹配门牌地址中...")
-        AppTime.api.matchingAddress(address).observeOnMain(this).subscribeBy(
-            onNext = {
-                mask.dismiss()
-                if (it.isEmpty()) {
-                    ToastUtils.showShort("无匹配信息")
-                    return@subscribeBy
-                }
-                showMerchantListDialog(it)
-            },
-            onError = {
-                mask.dismiss()
-            }
-        )
-    }
-
     private fun matchingName(name: String) {
-        val mask = DialogUtils.showMask(this, "匹配商户名称中...")
+        val mask = DialogUtils.showMask(context!!, "匹配商户名称中...")
         AppTime.api.matchingName(name).observeOnMain(this).subscribeBy(
             onNext = {
                 mask.dismiss()
@@ -195,47 +148,33 @@ class AddMerchantAct : BaseAct() {
         )
     }
 
+    private fun openCamera(requestCode: Int) {
+        PictureSelector.create(this)
+            .openCamera(PictureMimeType.ofImage())
+            .forResult(requestCode)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             val path = PictureSelector.obtainMultipleResult(data)[0].path
             Single.just(path)
                 .observeOn(Schedulers.io())
-                .map { return@map Luban.with(this@AddMerchantAct).load(it).get() }
+                .map { return@map Luban.with(context).load(it).get() }
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe { fileList ->
                     val compressPic = fileList[0]
                     val compressPicPath = compressPic.absolutePath
                     when (requestCode) {
-                        RequestCode.SIGNBOARD -> uploadSignboardPicture(compressPicPath)
-                        else -> displayImageAndUpload(compressPicPath, requestCode)
+                        RequestCode.SIGNBOARD -> uploadSignboardPic(compressPicPath)
+                        else -> uploadAddressPic(compressPicPath)
                     }
                 }
         }
     }
 
-//    private fun uploadExternalDistancePhoto(path: String) {
-//        val mask = DialogUtils.showMask(this, "上传照片中...")
-//        OkHttpUtils.post()
-//            .addFile("attachment", path, File(path))
-//            .url("${ConfigUtils.baseUrl}api/v1/system/file/upload")
-//            .build()
-//            .execute(object : StringCallback() {
-//                override fun onResponse(response: String, id: Int) {
-//                    mask.dismiss()
-//                    ToastUtils.showShort("上传完成")
-//                    val uploadResponse = AppTime.gson.fromJson(response, UploadResponse::class.java)
-//                    merchant.signBoardList[takeExternalDistancePhoto.position].externalDistancePicture = uploadResponse
-//                }
-//
-//                override fun onError(call: Call?, e: Exception?, id: Int) {
-//                    mask.dismiss()
-//                }
-//            })
-//    }
-
-    private fun uploadSignboardPicture(path: String) {
-        val mask = DialogUtils.showMask(this, "上传招牌照片中...")
+    private fun uploadSignboardPic(path: String) {
+        val mask = DialogUtils.showMask(context!!, "上传招牌照片中...")
         OkHttpUtils.post()
             .addFile("attachment", path, File(path))
             .url("${ConfigUtils.baseUrl}api/v1/system/file/upload")
@@ -255,11 +194,8 @@ class AddMerchantAct : BaseAct() {
             })
     }
 
-    private fun displayImageAndUpload(path: String, requestCode: Int) {
-        when (requestCode) {
-            RequestCode.ADDRESS -> Glide.with(this).load(path).into(ivAddress)
-//            RequestCode.NAME -> Glide.with(this).load(path).into(ivName)
-        }
+    private fun uploadAddressPic(path: String) {
+        Glide.with(this).load(path).into(ivAddress)
         OkHttpUtils.post()
             .addFile("attachment", path, File(path))
             .url("${ConfigUtils.baseUrl}api/v1/system/file/upload")
@@ -267,17 +203,11 @@ class AddMerchantAct : BaseAct() {
             .execute(object : StringCallback() {
                 override fun onResponse(response: String, id: Int) {
                     val uploadResponse = AppTime.gson.fromJson(response, UploadResponse::class.java)
-                    when (requestCode) {
-                        RequestCode.ADDRESS -> merchant.houseNumberPicture = uploadResponse
-//                        RequestCode.NAME -> merchant.facadePicture = uploadResponse
-                    }
+                    merchant.houseNumberPicture = uploadResponse
                 }
 
                 override fun inProgress(progress: Float, total: Long, id: Int) {
-                    when (requestCode) {
-                        RequestCode.ADDRESS -> ivAddress.setProgress((progress * 100).toInt())
-//                        RequestCode.NAME -> ivName.setProgress((progress * 100).toInt())
-                    }
+                    ivAddress.setProgress((progress * 100).toInt())
                 }
 
                 override fun onError(call: Call?, e: Exception?, id: Int) {
@@ -302,17 +232,12 @@ class AddMerchantAct : BaseAct() {
             takePhotoEvent = it
             openCamera(RequestCode.SIGNBOARD)
         })
-//        RxBus.registerEvent(this, TakeExternalDistancePhoto::class.java, Consumer {
-//            takeExternalDistancePhoto = it
-//            openCamera(RequestCode.ExternalDistance)
-//        })
     }
 
     private fun saveMerchant() {
         merchant.apply {
             address = etAddress.trimText()
             name = etName.trimText()
-
             if (TextUtils.isEmpty(address)) {
                 ToastUtils.showShort("门牌地址不能为空")
                 return
@@ -336,13 +261,13 @@ class AddMerchantAct : BaseAct() {
             for (signboard in signBoardList) {
                 signboard.apply {
                     if (picture == null) {
-                        ToastUtils.showShort("招牌照片不能为空")
+                        ToastUtils.showShort("请拍摄招牌照片")
                         return
                     }
                 }
             }
         }
-        val mask = DialogUtils.showMask(this, "保存数据中...")
+        val mask = DialogUtils.showMask(context!!, "保存数据中...")
         AppTime.api.saveMerchant(merchant).observeOnMain(this)
             .subscribeBy(
                 onNext = {
@@ -352,15 +277,17 @@ class AddMerchantAct : BaseAct() {
                     } else {
                         ToastUtils.showShort(it.message)
                     }
-                    startActivity(Intent(this@AddMerchantAct, AddMerchantAct::class.java).apply {
+                    startActivity(Intent(context, InputAct::class.java).apply {
                         putExtra(Key.area, merchant.area)
                     })
-                    finish()
+                    activity!!.finish()
                 },
                 onError = {
                     mask.dismiss()
                 }
             )
     }
+
+    override val layoutId = R.layout.add_merchant
 
 }

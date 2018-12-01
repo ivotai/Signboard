@@ -7,6 +7,7 @@ import com.unicorn.signboard.app.adapter.MyAdapter
 import com.unicorn.signboard.app.adapter.MyHolder
 import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.app.safeClicks
+import com.unicorn.signboard.input.InputAct
 import com.unicorn.signboard.login.ui.LoginAct
 import com.unicorn.signboard.merchant.add.AddMerchantAct
 import com.unicorn.signboard.merchant.list.ui.MerchantListAct
@@ -24,7 +25,7 @@ class MainAdapter : MyAdapter<String, MyHolder>(R.layout.item_right_arrow) {
         helper.apply {
             root.safeClicks().subscribe {
                 when (helper.adapterPosition) {
-                    0 -> mContext.startActivity(Intent(mContext, AddMerchantAct::class.java))
+                    0 -> mContext.startActivity(Intent(mContext, InputAct::class.java))
                     1 -> mContext.startActivity(Intent(mContext, MerchantListAct::class.java))
                     2 -> {
                         mContext.startActivity(Intent(mContext, LoginAct::class.java).apply {

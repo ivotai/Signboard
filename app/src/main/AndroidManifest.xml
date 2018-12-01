@@ -31,6 +31,7 @@
         <activity android:name=".operateType.ui.OperateTypeAct"/>
         <activity android:name=".operateTypeQuery.OperateTypeQueryAct"/>
         <activity android:name=".area.ui.AreaAct"/>
+        <activity android:name=".input.InputAct"/>
     </application>
 
 </manifest>
