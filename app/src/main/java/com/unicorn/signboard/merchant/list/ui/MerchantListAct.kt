@@ -41,10 +41,4 @@ class MerchantListAct : BaseAct(), PageActOrFra<Merchant> {
     override val mSwipeRefreshLayout: SwipeRefreshLayout
         get() = swipeRefreshLayout
 
-    override fun registerEvent() {
-        RxBus.registerEvent(this,RefreshEvent::class.java, Consumer {
-            loadFirstPage()
-        })
-    }
-
 }
