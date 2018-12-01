@@ -77,50 +77,44 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="建筑照片"
-                    android:textColor="@color/md_grey_700"
-                    android:textSize="17dp"/>
-
-            <TextView
-                    android:id="@+id/tvSignboardCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:textColor="@color/md_grey_400"
-                    android:textSize="17dp"/>
-
-            <ImageView
-                    android:id="@+id/addSignboard"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="16dp"
-                    android:scaleType="fitCenter"
-                    android:src="@mipmap/add"/>
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:text="建筑名称"
                     android:textColor="@color/md_grey_700"
                     android:textSize="17dp"/>
 
             <EditText
                     android:id="@+id/etName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
+                    android:layout_weight="1"
                     android:background="@null"
-                    android:inputType="numberSigned"
+                    android:inputType="text"
                     android:textColor="@color/md_grey_400"
                     android:textSize="17dp"/>
 
-        </LinearLayout>
+            <!--<TextView-->
+                    <!--android:layout_marginStart="8dp"-->
+                    <!--android:id="@+id/tvMatchingName"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:background="@color/md_green_400"-->
+                    <!--android:gravity="center"-->
+                    <!--android:paddingStart="12dp"-->
+                    <!--android:paddingTop="5dp"-->
+                    <!--android:paddingEnd="12dp"-->
+                    <!--android:paddingBottom="5dp"-->
+                    <!--android:text="匹配"-->
+                    <!--android:textColor="@color/md_white"/>-->
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+            <!--<com.unicorn.signboard.app.custom.ui.ProgressImageView-->
+            <!--android:id="@+id/ivName"-->
+            <!--android:layout_width="56dp"-->
+            <!--android:layout_height="56dp"-->
+            <!--android:layout_marginStart="12dp"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:src="@mipmap/add_photo"/>-->
+
+        </LinearLayout>
 
         <LinearLayout
                 android:layout_width="match_parent"
@@ -521,6 +515,46 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1px"
+                android:background="@color/md_white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="建筑照片"
+                    android:textColor="@color/md_grey_700"
+                    android:textSize="17dp"/>
+
+            <TextView
+                    android:id="@+id/tvSignboardCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/md_grey_400"
+                    android:textSize="17dp"/>
+
+            <ImageView
+                    android:id="@+id/addSignboard"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="16dp"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/add"/>
+
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         <com.unicorn.signboard.app.custom.ui.CustomButton
                 android:id="@+id/btnSave"

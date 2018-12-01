@@ -2,6 +2,7 @@ package com.unicorn.signboard.app.api
 
 import com.unicorn.signboard.app.base.Page
 import com.unicorn.signboard.area.model.Area
+import com.unicorn.signboard.input.building.Building
 import com.unicorn.signboard.input.ground.Ground
 import com.unicorn.signboard.login.model.*
 import com.unicorn.signboard.merchant.add.Merchant
@@ -11,7 +12,6 @@ import com.unicorn.signboard.operateType.model.OperateType
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
-import retrofit2.http.GET
 
 
 
@@ -68,6 +68,9 @@ interface UniqueApi {
     @POST("api/v1/sign/ground")
     fun saveGround(@Body ground:Ground): Observable<BaseResponse>
 
+    @Headers("Content-Type: application/json")
+    @POST("api/v1/sign/building")
+    fun save(@Body building: Building): Observable<BaseResponse>
 
     // 删除 & 检查更新
 

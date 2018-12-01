@@ -1,6 +1,8 @@
 package com.unicorn.signboard.app
 
 import android.app.Application
+import android.content.Context
+import androidx.multidex.MultiDex
 import com.blankj.utilcode.util.Utils
 import com.facebook.stetho.Stetho
 import com.orhanobut.logger.AndroidLogAdapter
@@ -24,6 +26,11 @@ class App : Application() {
             }
         }
         init(this)
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
     }
 
 }
