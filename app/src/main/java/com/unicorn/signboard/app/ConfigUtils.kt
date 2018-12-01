@@ -13,7 +13,9 @@ class ConfigUtils {
             return baseDir.absolutePath
         }
 
-        const val baseUrl2 = "https://lhsrkj.com/signboard"
+        const val baseUrl2 = "http://vphzzi.natappfree.cc/signboard"
+
+//        const val baseUrl2 = "https://lhsrkj.com/signboard"
         const val baseUrl = "$baseUrl2/"
 //        const val baseUrl = "http://y9n3f9.natappfree.cc/signboard/"
     }
