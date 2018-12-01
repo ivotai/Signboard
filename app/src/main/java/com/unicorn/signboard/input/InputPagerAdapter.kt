@@ -11,14 +11,14 @@ class InputPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> AddMerchantFra()
-            1 -> AddMerchantFra()
-            2 -> AddGroundFra()
+//            1 -> AddMerchantFra()
+            1 -> AddGroundFra()
             else -> null!!
         }
     }
 
-    override fun getCount() = 3
+    override fun getCount() = 2
 
-    override fun getPageTitle(position: Int) = listOf("墙面", "建筑", "地面")[position]
+    override fun getPageTitle(position: Int) = listOf("墙面", "地面")[position]
 
 }
