@@ -110,7 +110,7 @@ class AddGroundFra : BaseFra() {
             },
             onError = {
                 mask.dismiss()
-                ToastUtils.showShort("未匹配到相关经营业态")
+                ErrorHandler().copeError(it)
             }
         )
     }
@@ -250,6 +250,7 @@ class AddGroundFra : BaseFra() {
                 },
                 onError = {
                     mask.dismiss()
+                    ErrorHandler().copeError(it)
                 }
             )
     }
