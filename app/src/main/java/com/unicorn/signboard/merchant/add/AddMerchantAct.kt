@@ -291,8 +291,9 @@ class AddMerchantAct : BaseAct() {
             tvOperateType.text = it.name
         })
         RxBus.registerEvent(this, Area::class.java, Consumer {
-            merchant.area = it
-            AppTime.lastArea = it
+            val obj = Obj(objectId = it.objectId,name = it.name)
+            merchant.area=obj
+            AppTime.lastArea = obj
             tvArea.text = it.name
         })
         RxBus.registerEvent(this, SignboardCountChangeEvent::class.java, Consumer {
