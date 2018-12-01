@@ -97,27 +97,27 @@
                     android:textColor="@color/md_grey_400"
                     android:textSize="17dp"/>
 
-            <!--<TextView-->
-                    <!--android:layout_marginStart="8dp"-->
-                    <!--android:id="@+id/tvMatchingName"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="@color/md_green_400"-->
-                    <!--android:gravity="center"-->
-                    <!--android:paddingStart="12dp"-->
-                    <!--android:paddingTop="5dp"-->
-                    <!--android:paddingEnd="12dp"-->
-                    <!--android:paddingBottom="5dp"-->
-                    <!--android:text="匹配"-->
-                    <!--android:textColor="@color/md_white"/>-->
+            <TextView
+                    android:layout_marginStart="8dp"
+                    android:id="@+id/tvMatchingName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/md_green_400"
+                    android:gravity="center"
+                    android:paddingStart="12dp"
+                    android:paddingTop="5dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="5dp"
+                    android:text="匹配"
+                    android:textColor="@color/md_white"/>
 
-            <com.unicorn.signboard.app.custom.ui.ProgressImageView
-                    android:id="@+id/ivName"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:layout_marginStart="12dp"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/add_photo"/>
+            <!--<com.unicorn.signboard.app.custom.ui.ProgressImageView-->
+                    <!--android:id="@+id/ivName"-->
+                    <!--android:layout_width="56dp"-->
+                    <!--android:layout_height="56dp"-->
+                    <!--android:layout_marginStart="12dp"-->
+                    <!--android:scaleType="fitXY"-->
+                    <!--android:src="@mipmap/add_photo"/>-->
 
         </LinearLayout>
 

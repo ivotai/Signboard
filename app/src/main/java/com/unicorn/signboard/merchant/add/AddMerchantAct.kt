@@ -35,10 +35,14 @@ import com.unicorn.signboard.signboard.TakeExternalDistancePhoto
 import com.unicorn.signboard.signboard.TakePhotoEvent
 import com.zhy.http.okhttp.OkHttpUtils
 import com.zhy.http.okhttp.callback.StringCallback
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.act_add_merchant.*
 import okhttp3.Call
+import top.zibin.luban.Luban
 import java.io.File
 
 @SuppressLint("CheckResult")
@@ -97,9 +101,9 @@ class AddMerchantAct : BaseAct() {
 
     override fun bindIntent() {
 //        tvMatchingAddress.safeClicks().subscribe { matchingAddress(etAddress.trimText()) }
-//        tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
+        tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
         ivAddress.safeClicks().subscribe { openCamera(RequestCode.ADDRESS) }
-        ivName.safeClicks().subscribe { openCamera(RequestCode.NAME) }
+//        ivName.safeClicks().subscribe { openCamera(RequestCode.NAME) }
         tvOperateType.safeClicks().subscribe { startActivity(Intent(this, OperateTypeAct::class.java)) }
         tvArea.safeClicks().subscribe { startActivity(Intent(this, AreaAct::class.java)) }
         etStoreCount.textChanges().filter { it.isNotEmpty() }.map { it.toString().toInt() }
@@ -133,7 +137,6 @@ class AddMerchantAct : BaseAct() {
     private fun openCamera(requestCode: Int) {
         PictureSelector.create(this)
             .openCamera(PictureMimeType.ofImage())
-            .compress(true)
             .forResult(requestCode)
     }
 
@@ -179,7 +182,6 @@ class AddMerchantAct : BaseAct() {
     }
 
     private fun matchingName(name: String) {
-        // TODO 有问题
         val mask = DialogUtils.showMask(this, "匹配商户名称中...")
         AppTime.api.matchingName(name).observeOnMain(this).subscribeBy(
             onNext = {
@@ -189,6 +191,7 @@ class AddMerchantAct : BaseAct() {
             },
             onError = {
                 mask.dismiss()
+                ToastUtils.showShort("未匹配到相关经营业态")
             }
         )
     }
@@ -196,12 +199,19 @@ class AddMerchantAct : BaseAct() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            val path = PictureSelector.obtainMultipleResult(data)[0].compressPath
-            when (requestCode) {
-                RequestCode.SIGNBOARD -> uploadSignboardPicture(path)
-//                RequestCode.ExternalDistance -> uploadExternalDistancePhoto(path)
-                else -> displayImageAndUpload(path, requestCode)
-            }
+            val path = PictureSelector.obtainMultipleResult(data)[0].path
+            Single.just(path)
+                .observeOn(Schedulers.io())
+                .map { return@map Luban.with(this@AddMerchantAct).load(it).get() }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{ fileList ->
+                    val compressPic = fileList[0]
+                    val compressPicPath = compressPic.absolutePath
+                    when (requestCode) {
+                        RequestCode.SIGNBOARD -> uploadSignboardPicture(compressPicPath)
+                        else -> displayImageAndUpload(compressPicPath, requestCode)
+                    }
+                }
         }
     }
 
@@ -249,7 +259,7 @@ class AddMerchantAct : BaseAct() {
     private fun displayImageAndUpload(path: String, requestCode: Int) {
         when (requestCode) {
             RequestCode.ADDRESS -> Glide.with(this).load(path).into(ivAddress)
-            RequestCode.NAME -> Glide.with(this).load(path).into(ivName)
+//            RequestCode.NAME -> Glide.with(this).load(path).into(ivName)
         }
         OkHttpUtils.post()
             .addFile("attachment", path, File(path))
@@ -260,14 +270,14 @@ class AddMerchantAct : BaseAct() {
                     val uploadResponse = AppTime.gson.fromJson(response, UploadResponse::class.java)
                     when (requestCode) {
                         RequestCode.ADDRESS -> merchant.houseNumberPicture = uploadResponse
-                        RequestCode.NAME -> merchant.facadePicture = uploadResponse
+//                        RequestCode.NAME -> merchant.facadePicture = uploadResponse
                     }
                 }
 
                 override fun inProgress(progress: Float, total: Long, id: Int) {
                     when (requestCode) {
                         RequestCode.ADDRESS -> ivAddress.setProgress((progress * 100).toInt())
-                        RequestCode.NAME -> ivName.setProgress((progress * 100).toInt())
+//                        RequestCode.NAME -> ivName.setProgress((progress * 100).toInt())
                     }
                 }
 
@@ -313,10 +323,6 @@ class AddMerchantAct : BaseAct() {
             }
             if (TextUtils.isEmpty(name)) {
                 ToastUtils.showShort("商户名称不能为空")
-                return
-            }
-            if (facadePicture == null) {
-                ToastUtils.showShort("请拍摄商户名称照片")
                 return
             }
             if (operateType == null) {
