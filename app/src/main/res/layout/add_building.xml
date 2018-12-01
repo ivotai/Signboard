@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="HardcodedText,RtlSymmetry,SpUsage,LabelFor,ContentDescription,Autofill"
+            android:background="@color/md_grey_300">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/md_grey_300"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1px"
+                android:background="@color/md_white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="门牌地址"
+                    android:textColor="@color/md_grey_700"
+                    android:textSize="17dp"/>
+
+            <EditText
+                    android:id="@+id/etAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:textColor="@color/md_grey_400"
+                    android:textSize="17dp"/>
+
+            <!--<TextView-->
+            <!--android:layout_marginStart="8dp"-->
+            <!--android:id="@+id/tvMatchingAddress"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/md_green_400"-->
+            <!--android:gravity="center"-->
+            <!--android:paddingStart="12dp"-->
+            <!--android:paddingTop="5dp"-->
+            <!--android:paddingEnd="12dp"-->
+            <!--android:paddingBottom="5dp"-->
+            <!--android:text="匹配"-->
+            <!--android:textColor="@color/md_white"/>-->
+
+            <com.unicorn.signboard.app.custom.ui.ProgressImageView
+                    android:id="@+id/ivAddress"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="12dp"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/add_photo"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1px"
+                android:background="@color/md_white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="建筑照片"
+                    android:textColor="@color/md_grey_700"
+                    android:textSize="17dp"/>
+
+            <TextView
+                    android:id="@+id/tvSignboardCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/md_grey_400"
+                    android:textSize="17dp"/>
+
+            <ImageView
+                    android:id="@+id/addSignboard"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="16dp"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/add"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="建筑名称"
+                    android:textColor="@color/md_grey_700"
+                    android:textSize="17dp"/>
+
+            <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:background="@null"
+                    android:inputType="numberSigned"
+                    android:textColor="@color/md_grey_400"
+                    android:textSize="17dp"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1px"
+                android:background="@color/md_white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="所属街道"
+                    android:textColor="@color/md_grey_700"
+                    android:textSize="17dp"/>
+
+            <TextView
+                    android:id="@+id/tvArea"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:textColor="@color/md_grey_400"
+                    android:textSize="17dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1px"
+                android:background="@color/md_white"
+                android:orientation="horizontal">
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="屋顶招牌(&lt;=6)"
+                        android:textColor="@color/md_grey_700"
+                        android:padding="12dp"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:background="@null"
+                        android:paddingEnd="12dp"
+                        android:id="@+id/tvNumber1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberSigned"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:text="屋顶招牌(7-24)"
+                        android:textColor="@color/md_grey_700"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:inputType="numberSigned"
+                        android:id="@+id/tvNumber2"
+                        android:layout_width="0dp"
+                        android:paddingEnd="12dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1px"
+                android:background="@color/md_white"
+                android:orientation="horizontal">
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="屋顶招牌(&gt;=25)"
+                        android:textColor="@color/md_grey_700"
+                        android:padding="12dp"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:background="@null"
+                        android:paddingEnd="12dp"
+                        android:id="@+id/tvNumber3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberSigned"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:text="门头店招"
+                        android:textColor="@color/md_grey_700"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:inputType="numberSigned"
+                        android:id="@+id/tvNumber4"
+                        android:layout_width="0dp"
+                        android:paddingEnd="12dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1px"
+                android:background="@color/md_white"
+                android:orientation="horizontal">
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="檐部招牌"
+                        android:textColor="@color/md_grey_700"
+                        android:padding="12dp"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:background="@null"
+                        android:paddingEnd="12dp"
+                        android:id="@+id/tvNumber5"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberSigned"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:text="雨棚招牌"
+                        android:textColor="@color/md_grey_700"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:inputType="numberSigned"
+                        android:id="@+id/tvNumber6"
+                        android:layout_width="0dp"
+                        android:paddingEnd="12dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1px"
+                android:background="@color/md_white"
+                android:orientation="horizontal">
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="走字屏"
+                        android:textColor="@color/md_grey_700"
+                        android:padding="12dp"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:background="@null"
+                        android:paddingEnd="12dp"
+                        android:id="@+id/tvNumber7"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberSigned"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:text="招幌"
+                        android:textColor="@color/md_grey_700"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:inputType="numberSigned"
+                        android:id="@+id/tvNumber8"
+                        android:layout_width="0dp"
+                        android:paddingEnd="12dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1px"
+                android:background="@color/md_white"
+                android:orientation="horizontal">
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="外挑立招(&lt;=3层)"
+                        android:textColor="@color/md_grey_700"
+                        android:padding="12dp"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:background="@null"
+                        android:paddingEnd="12dp"
+                        android:id="@+id/tvNumber9"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberSigned"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:text="外挑立招(&gt;3层)"
+                        android:textColor="@color/md_grey_700"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:inputType="numberSigned"
+                        android:id="@+id/tvNumber10"
+                        android:layout_width="0dp"
+                        android:paddingEnd="12dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1px"
+                android:background="@color/md_white"
+                android:orientation="horizontal">
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="其他墙面(&lt;=6层)"
+                        android:textColor="@color/md_grey_700"
+                        android:padding="12dp"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:background="@null"
+                        android:paddingEnd="12dp"
+                        android:id="@+id/tvNumber11"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:inputType="numberSigned"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+            <LinearLayout android:layout_weight="1"
+                          android:orientation="horizontal"
+                          android:layout_width="0dp"
+                          android:layout_height="match_parent">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="12dp"
+                        android:text="其他墙面(&gt;6层)"
+                        android:textColor="@color/md_grey_700"
+                        android:textSize="17dp"/>
+
+                <EditText
+                        android:inputType="numberSigned"
+                        android:id="@+id/tvNumber12"
+                        android:layout_width="0dp"
+                        android:paddingEnd="12dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:textColor="@color/md_grey_400"
+                        android:textSize="17dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.unicorn.signboard.app.custom.ui.CustomButton
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="保存"/>
+
+    </LinearLayout>
+
+</ScrollView>
