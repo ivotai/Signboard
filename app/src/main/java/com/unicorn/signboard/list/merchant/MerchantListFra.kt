@@ -15,7 +15,6 @@ import com.unicorn.signboard.app.base.PageActOrFra.Companion.rows
 import com.unicorn.signboard.app.observeOnMain
 import com.unicorn.signboard.list.RefreshListEvent
 import com.unicorn.signboard.merchant.add.Merchant
-import com.unicorn.signboard.merchant.list.ui.MerchantListAdapter
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import kotlinx.android.synthetic.main.swipe_recycler.*

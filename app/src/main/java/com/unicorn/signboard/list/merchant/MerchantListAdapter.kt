@@ -1,6 +1,5 @@
-package com.unicorn.signboard.merchant.list.ui
+package com.unicorn.signboard.list.merchant
 
-import android.widget.Toast
 import androidx.lifecycle.LifecycleOwner
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blankj.utilcode.util.ToastUtils
@@ -9,7 +8,6 @@ import com.jakewharton.rxbinding2.view.longClicks
 import com.unicorn.signboard.R
 import com.unicorn.signboard.app.AppTime
 import com.unicorn.signboard.app.ConfigUtils
-import com.unicorn.signboard.app.RxBus
 import com.unicorn.signboard.app.adapter.MyAdapter
 import com.unicorn.signboard.app.adapter.MyHolder
 import com.unicorn.signboard.app.observeOnMain
