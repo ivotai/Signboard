@@ -36,7 +36,8 @@ interface UniqueApi {
     fun getMerchant(
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
-        @Query("lastDate") lastDate: String
+        @Query("lastDate") lastDate: String,
+        @Query("keyword") keyword: String
     ): Observable<Page<Merchant>>
 
     //  字典等
