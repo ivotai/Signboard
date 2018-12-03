@@ -40,6 +40,14 @@ interface UniqueApi {
         @Query("keyword") keyword: String
     ): Observable<Page<Merchant>>
 
+    @GET(value = "api/v1/sign/ground")
+    fun getGround(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("lastDate") lastDate: String,
+        @Query("keyword") keyword: String
+    ): Observable<Page<Ground>>
+
     //  字典等
     @GET(value = "api/v1/sign/dict")
     fun getDict(): Observable<Dict>

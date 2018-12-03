@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.unicorn.signboard.input.building.AddBuildingFra
-import com.unicorn.signboard.input.ground.AddGroundFra
+import com.unicorn.signboard.list.ground.GroundListFra
 import com.unicorn.signboard.list.merchant.MerchantListFra
 
 class ListPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
@@ -13,7 +13,7 @@ class ListPagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
         return when (position) {
             0 -> MerchantListFra()
             1 -> AddBuildingFra()
-            2 -> AddGroundFra()
+            2 -> GroundListFra()
             else -> null!!
         }
     }

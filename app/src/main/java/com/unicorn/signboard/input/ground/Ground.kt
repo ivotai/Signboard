@@ -5,6 +5,7 @@ import com.unicorn.signboard.merchant.add.Obj
 import com.unicorn.signboard.merchant.add.UploadResponse
 
 data class Ground(
+    val objectId:String ="",
     var name: String = "",
     var address: String = "",
     var area: Obj? = null,
