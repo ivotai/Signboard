@@ -8,8 +8,8 @@ import com.unicorn.signboard.app.adapter.MyAdapter
 import com.unicorn.signboard.app.adapter.MyHolder
 import com.unicorn.signboard.app.safeClicks
 import com.unicorn.signboard.input.InputAct
+import com.unicorn.signboard.list.ListAct
 import com.unicorn.signboard.login.ui.LoginAct
-import com.unicorn.signboard.merchant.list.ui.MerchantListAct
 import kotlinx.android.synthetic.main.item_right_arrow.*
 
 class MainAdapter : MyAdapter<String, MyHolder>(R.layout.item_right_arrow) {
@@ -26,7 +26,7 @@ class MainAdapter : MyAdapter<String, MyHolder>(R.layout.item_right_arrow) {
                 val item = mData[helper.adapterPosition]
                 when (item) {
                     "商户录入" -> mContext.startActivity(Intent(mContext, InputAct::class.java))
-                    "商户列表" -> mContext.startActivity(Intent(mContext, MerchantListAct::class.java))
+                    "商户列表" -> mContext.startActivity(Intent(mContext, ListAct::class.java))
                     "退出" -> {
                         mContext.startActivity(Intent(mContext, LoginAct::class.java).apply {
                             putExtra(Key.logout, true)

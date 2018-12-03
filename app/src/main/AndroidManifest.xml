@@ -26,11 +26,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".main.ui.MainAct"/>
-        <activity android:name=".merchant.list.ui.MerchantListAct"/>
         <activity android:name=".operateType.ui.OperateTypeAct"/>
         <activity android:name=".operateTypeQuery.OperateTypeQueryAct"/>
         <activity android:name=".area.ui.AreaAct"/>
         <activity android:name=".input.InputAct"/>
+        <activity android:name=".list.ListAct"/>
     </application>
 
 </manifest>

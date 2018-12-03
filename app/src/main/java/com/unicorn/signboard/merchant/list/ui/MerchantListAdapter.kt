@@ -33,7 +33,6 @@ class MerchantListAdapter : MyAdapter<Merchant, MyHolder>(R.layout.item_merchant
                                 if (baseResponse.success) {
                                     ToastUtils.showShort("删除成功")
                                     remove(helper.adapterPosition)
-//                                    RxBus.post(RefreshEvent())
                                 } else {
                                     ToastUtils.showShort(baseResponse.message)
                                 }
