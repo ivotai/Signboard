@@ -27,7 +27,7 @@ interface PageActOrFra<Model> : ActOrFra {
     }
 
     private val pageNo
-        get() = mAdapter!!.data.size / rows
+        get() = (mAdapter!!.data.size / rows) + 1
 
     override fun initViews() {
         mSwipeRefreshLayout.setOnRefreshListener {
@@ -47,7 +47,7 @@ interface PageActOrFra<Model> : ActOrFra {
     }
 
     fun loadFirstPage() {
-        loadPage(0).subscribe({ page ->
+        loadPage(1).subscribe({ page ->
             mSwipeRefreshLayout.isRefreshing = false
             mAdapter!!.setNewData(page.content)
             if (mAdapter!!.data.size == page.totalElements) mAdapter!!.loadMoreEnd()

@@ -33,8 +33,8 @@ interface UniqueApi {
 
     // 商户列表
     @GET(value = "api/v1/sign/merchant")
-    fun getDict(
-        @Query("pageNo") pageNo: Int,
+    fun getMerchant(
+        @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
         @Query("lastDate") lastDate: String
     ): Observable<Page<Merchant>>

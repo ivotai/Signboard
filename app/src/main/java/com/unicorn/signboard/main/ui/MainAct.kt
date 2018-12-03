@@ -73,7 +73,7 @@ class MainAct : BaseAct() {
     private fun checkUpdate() {
         AppTime.api.checkUpdate("1001", AppUtils.getAppVersionName()).observeOnMain(this).subscribeBy(
             onNext = {
-                if(it.newVersion) showUpdateDialog(it.apkUrl)
+                if (it.newVersion) showUpdateDialog(it.apkUrl)
             },
             onError = {
 
