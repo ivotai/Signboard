@@ -2,6 +2,7 @@ package com.unicorn.signboard.app
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.Gson
+import com.unicorn.signboard.LastDate
 import com.unicorn.signboard.app.api.UniqueApi
 import com.unicorn.signboard.area.model.Area
 import com.unicorn.signboard.login.model.LoginResponse
@@ -41,6 +42,9 @@ object AppTime {
     lateinit var api: UniqueApi
 
     val gson = Gson()
+
+    // today今天，week本周，month本月，空或任意字符代表全部
+    var lastDate = LastDate.Month
 
     fun init() {
         fun initClient() {
