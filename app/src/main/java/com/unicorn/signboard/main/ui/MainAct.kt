@@ -35,7 +35,7 @@ class MainAct : BaseAct() {
 
     private fun setAdapterData() {
         val version = "版本号: ${AppUtils.getAppVersionName()}"
-        listOf(version, "商户录入", "商户列表", "退出").let { mAdapter.setNewData(it) }
+        listOf(version, "商户录入", "商户列表", "商户统计", "退出").let { mAdapter.setNewData(it) }
     }
 
     @SuppressLint("CheckResult")
