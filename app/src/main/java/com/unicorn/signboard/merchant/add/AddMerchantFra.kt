@@ -285,6 +285,7 @@ class AddMerchantFra : BaseFra() {
                 },
                 onError = {
                     mask.dismiss()
+                    ErrorHandler().copeError(it)
                 }
             )
     }

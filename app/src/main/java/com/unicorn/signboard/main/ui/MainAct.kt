@@ -31,6 +31,7 @@ class MainAct : BaseAct() {
 
     private fun initRecyclerView() {
         recyclerView.default(mAdapter)
+        mAdapter.addHeaderView(MainHeaderView(this))
     }
 
     override fun bindIntent() {

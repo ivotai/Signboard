@@ -24,9 +24,9 @@ class MainAdapter : MyAdapter<String, MyHolder>(R.layout.item_right_arrow) {
         helper.apply {
             root.safeClicks().subscribe {
                 when (helper.adapterPosition) {
-                    0 -> mContext.startActivity(Intent(mContext, InputAct::class.java))
-                    1 -> mContext.startActivity(Intent(mContext, MerchantListAct::class.java))
-                    2 -> {
+                    1 -> mContext.startActivity(Intent(mContext, InputAct::class.java))
+                    2 -> mContext.startActivity(Intent(mContext, MerchantListAct::class.java))
+                    3 -> {
                         mContext.startActivity(Intent(mContext, LoginAct::class.java).apply {
                             putExtra(Key.logout,true)
                         })

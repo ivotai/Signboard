@@ -95,7 +95,7 @@
             android:layout_marginStart="32dp"
             android:background="@null"
             android:hint="输入验证码"
-            android:inputType="textPassword"
+            android:inputType="numberPassword"
             android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
