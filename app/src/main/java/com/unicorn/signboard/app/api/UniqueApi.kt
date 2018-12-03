@@ -48,6 +48,14 @@ interface UniqueApi {
         @Query("keyword") keyword: String
     ): Observable<Page<Ground>>
 
+    @GET(value = "api/v1/sign/building")
+    fun getBuilding(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("lastDate") lastDate: String,
+        @Query("keyword") keyword: String
+    ): Observable<Page<Building>>
+
     //  字典等
     @GET(value = "api/v1/sign/dict")
     fun getDict(): Observable<Dict>
@@ -84,7 +92,13 @@ interface UniqueApi {
     // 删除 & 检查更新
 
     @DELETE("api/v1/sign/merchant/{objectId}")
-    fun delete(@Path("objectId") objectId: String): Observable<BaseResponse>
+    fun deleteMerchant(@Path("objectId") objectId: String): Observable<BaseResponse>
+
+    @DELETE("api/v1/sign/building/{objectId}")
+    fun deleteBuilding(@Path("objectId") objectId: String): Observable<BaseResponse>
+
+    @DELETE("api/v1/sign/ground/{objectId}")
+    fun deleteGround(@Path("objectId") objectId: String): Observable<BaseResponse>
 
     @GET(value = "public/checkUpdate")
     fun checkUpdate(@Query("id") id: String,@Query("version") version: String): Observable<CheckUpdateResponse>

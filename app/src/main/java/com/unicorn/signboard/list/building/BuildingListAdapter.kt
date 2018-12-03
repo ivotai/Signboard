@@ -1,4 +1,4 @@
-package com.unicorn.signboard.list.merchant
+package com.unicorn.signboard.list.building
 
 import androidx.lifecycle.LifecycleOwner
 import com.afollestad.materialdialogs.MaterialDialog
@@ -11,12 +11,12 @@ import com.unicorn.signboard.app.ConfigUtils
 import com.unicorn.signboard.app.adapter.MyAdapter
 import com.unicorn.signboard.app.adapter.MyHolder
 import com.unicorn.signboard.app.observeOnMain
-import com.unicorn.signboard.merchant.add.Merchant
+import com.unicorn.signboard.input.building.Building
 import io.reactivex.rxkotlin.subscribeBy
-import kotlinx.android.synthetic.main.item_merchant.*
+import kotlinx.android.synthetic.main.item_building.*
 import org.joda.time.DateTime
 
-class MerchantListAdapter : MyAdapter<Merchant, MyHolder>(R.layout.item_merchant) {
+class BuildingListAdapter : MyAdapter<Building, MyHolder>(R.layout.item_building) {
 
     override fun bindIntent(helper: MyHolder, viewType: Int) {
         helper.apply {
@@ -24,10 +24,11 @@ class MerchantListAdapter : MyAdapter<Merchant, MyHolder>(R.layout.item_merchant
                 MaterialDialog.Builder(mContext).title("确认删除商户？")
                     .positiveText("确认")
                     .onPositive { _, _ ->
-                        val pos = helper.adapterPosition - 1
+                        val pos = helper.adapterPosition-1
                         val item = mData[pos]
-                        AppTime.api.deleteMerchant(item.objectId).observeOnMain(mContext as LifecycleOwner).subscribeBy(
-                            onNext = { baseResponse ->
+                        AppTime.api.deleteBuilding(item.objectId).observeOnMain(mContext as LifecycleOwner).subscribeBy (
+                            onNext = {
+                                    baseResponse ->
                                 if (baseResponse.success) {
                                     ToastUtils.showShort("删除成功")
                                     remove(pos)
@@ -47,7 +48,7 @@ class MerchantListAdapter : MyAdapter<Merchant, MyHolder>(R.layout.item_merchant
 
     }
 
-    override fun convert(helper: MyHolder, item: Merchant) {
+    override fun convert(helper: MyHolder, item: Building) {
         helper.apply {
             val imageUrl = "${ConfigUtils.baseUrl2}${item.houseNumberPictureLink}!400_300"
             Glide.with(mContext).load(imageUrl).into(ivImage)

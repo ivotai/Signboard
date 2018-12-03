@@ -24,13 +24,14 @@ class GroundListAdapter : MyAdapter<Ground, MyHolder>(R.layout.item_ground) {
                 MaterialDialog.Builder(mContext).title("确认删除商户？")
                     .positiveText("确认")
                     .onPositive { _, _ ->
-                        val item = mData[helper.adapterPosition]
-                        AppTime.api.delete(item.objectId).observeOnMain(mContext as LifecycleOwner).subscribeBy (
+                        val pos = helper.adapterPosition-1
+                        val item = mData[pos]
+                        AppTime.api.deleteGround(item.objectId).observeOnMain(mContext as LifecycleOwner).subscribeBy (
                             onNext = {
                                     baseResponse ->
                                 if (baseResponse.success) {
                                     ToastUtils.showShort("删除成功")
-                                    remove(helper.adapterPosition)
+                                    remove(pos)
                                 } else {
                                     ToastUtils.showShort(baseResponse.message)
                                 }
