@@ -20,35 +20,29 @@ import java.io.File
 @SuppressLint("CheckResult")
 class MainAct : BaseAct() {
 
-    override val layoutId = R.layout.title_recycler
+    private val mAdapter = MainAdapter()
 
     override fun initViews() {
         titleBar.setTitle(title = "主界面", hideBack = true)
-        initRecyclerView()
-    }
-
-    private val mAdapter = MainAdapter()
-
-    private fun initRecyclerView() {
         recyclerView.default(mAdapter)
-        mAdapter.addHeaderView(MainHeaderView(this))
     }
 
     override fun bindIntent() {
-        setData()
-        prepareData()
+        setAdapterData()
+        fetchUsefulData()
         checkUpdate()
     }
 
-    private fun setData() {
-        listOf("商户录入", "商户列表", "退出").let { mAdapter.setNewData(it) }
+    private fun setAdapterData() {
+        val version = "版本号: ${AppUtils.getAppVersionName()}"
+        listOf(version, "商户录入", "商户列表", "退出").let { mAdapter.setNewData(it) }
     }
 
     @SuppressLint("CheckResult")
-    private fun prepareData() {
+    private fun fetchUsefulData() {
         val api = AppTime.api
         val mask = DialogUtils.showMask(this, "获取数据中...")
-        api.getDict()
+        AppTime.api.getDict()
             .flatMap {
                 AppTime.dict = it
                 return@flatMap api.getArea()
@@ -71,7 +65,39 @@ class MainAct : BaseAct() {
     }
 
     private fun checkUpdate() {
-        AppTime.api.checkUpdate("1001", AppUtils.getAppVersionName()).observeOnMain(this).subscribeBy(
+        fun downloadApk(apkUrl: String) {
+            val mask = DialogUtils.showMask2(this, "下载中...")
+            OkHttpUtils
+                .get()
+                .url(apkUrl)
+                .build()
+                .execute(object : FileCallBack(ConfigUtils.baseDir(), "Signboard.apk") {
+                    override fun onResponse(response: File, id: Int) {
+                        mask.dismiss()
+                        AppUtils.installApp(response)
+                    }
+
+                    override fun inProgress(progress: Float, total: Long, id: Int) {
+                        mask.setProgress((progress * 100).toInt())
+                    }
+
+                    override fun onError(call: Call?, e: Exception?, id: Int) {
+                        mask.dismiss()
+                    }
+                })
+        }
+
+        fun showUpdateDialog(apkUrl: String) {
+            MaterialDialog.Builder(this)
+                .title("版本更新")
+                .cancelable(false)
+                .positiveText("确认")
+                .onPositive { _, _ -> downloadApk(apkUrl) }
+                .show()
+        }
+
+        val versionName = AppUtils.getAppVersionName()
+        AppTime.api.checkUpdate("1001", versionName).observeOnMain(this).subscribeBy(
             onNext = {
                 if (it.newVersion) showUpdateDialog(it.apkUrl)
             },
@@ -81,35 +107,6 @@ class MainAct : BaseAct() {
         )
     }
 
-    private fun showUpdateDialog(apkUrl: String) {
-        MaterialDialog.Builder(this)
-            .title("版本更新")
-            .cancelable(false)
-            .positiveText("确认")
-            .onPositive { _, _ -> downloadApk(apkUrl) }
-            .show()
-    }
-
-    private fun downloadApk(apkUrl: String) {
-        val mask = DialogUtils.showMask2(this, "下载中...")
-        OkHttpUtils
-            .get()
-            .url(apkUrl)
-            .build()
-            .execute(object : FileCallBack(ConfigUtils.baseDir(), "Signboard.apk") {
-                override fun onResponse(response: File, id: Int) {
-                    mask.dismiss()
-                    AppUtils.installApp(response)
-                }
-
-                override fun inProgress(progress: Float, total: Long, id: Int) {
-                    mask.setProgress((progress * 100).toInt())
-                }
-
-                override fun onError(call: Call?, e: Exception?, id: Int) {
-                    mask.dismiss()
-                }
-            })
-    }
+    override val layoutId = R.layout.title_recycler
 
 }
