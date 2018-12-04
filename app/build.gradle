@@ -10,8 +10,8 @@ android {
         applicationId "com.unicorn.signboard"
         minSdkVersion 17
         targetSdkVersion 20
-        versionCode 4
-        versionName "1.1.0"
+        versionCode 5
+        versionName "1.1.1"
         multiDexEnabled true
     }
     buildTypes {
@@ -72,6 +72,7 @@ dependencies {
     implementation 'net.danlew:android.joda:2.10.1'
     implementation 'top.zibin:Luban:1.1.8'
     implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.github.huangyanbin:SmartTable:2.2.0'
 }
 
 androidExtensions {

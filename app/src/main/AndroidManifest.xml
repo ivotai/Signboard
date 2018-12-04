@@ -31,6 +31,8 @@
         <activity android:name=".area.ui.AreaAct"/>
         <activity android:name=".input.InputAct"/>
         <activity android:name=".list.ListAct"/>
+        <activity android:name=".statistics.StatisticsAct"/>
+
     </application>
 
 </manifest>
