@@ -3,6 +3,7 @@ package com.unicorn.signboard.signboard
 import com.unicorn.signboard.app.AppTime
 import com.unicorn.signboard.merchant.add.Obj
 import com.unicorn.signboard.merchant.add.UploadResponse
+import java.io.Serializable
 
 data class SignBoard(
 //    val objectId: String,
@@ -12,4 +13,4 @@ data class SignBoard(
     var externalDistance: Obj = AppTime.dict.SignBoardExternalDistance[0],
     var picture: UploadResponse? = null,
     val pictureLink:String = ""
-)
+): Serializable

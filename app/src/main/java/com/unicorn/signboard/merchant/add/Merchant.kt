@@ -1,6 +1,5 @@
 package com.unicorn.signboard.merchant.add
 
-import com.unicorn.signboard.area.model.Area
 import com.unicorn.signboard.signboard.SignBoard
 import java.io.Serializable
 
@@ -19,7 +18,7 @@ data class Merchant(
     var coordinateY: Double = 0.0,
     val signBoardList: List<SignBoard> = ArrayList<SignBoard>().apply { add(SignBoard()) },
     val registrationTime: Long = 0
-)
+):Serializable
 
 class Obj(
     val objectId: String,

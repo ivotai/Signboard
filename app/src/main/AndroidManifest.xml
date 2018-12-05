@@ -33,6 +33,7 @@
         <activity android:name=".list.ListAct"/>
         <activity android:name=".statistics.ui.StatAct"/>
         <activity android:name=".detail.ground.GroundDetailAct"/>
+        <activity android:name=".detail.merchant.MerchantDetailAct"/>
 
     </application>
 

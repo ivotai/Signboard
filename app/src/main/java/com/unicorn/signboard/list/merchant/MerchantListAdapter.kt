@@ -1,16 +1,16 @@
 package com.unicorn.signboard.list.merchant
 
+import android.content.Intent
 import androidx.lifecycle.LifecycleOwner
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding2.view.longClicks
 import com.unicorn.signboard.R
-import com.unicorn.signboard.app.AppTime
-import com.unicorn.signboard.app.ConfigUtils
+import com.unicorn.signboard.app.*
 import com.unicorn.signboard.app.adapter.MyAdapter
 import com.unicorn.signboard.app.adapter.MyHolder
-import com.unicorn.signboard.app.observeOnMain
+import com.unicorn.signboard.detail.merchant.MerchantDetailAct
 import com.unicorn.signboard.merchant.add.Merchant
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.item_merchant.*
@@ -43,7 +43,16 @@ class MerchantListAdapter : MyAdapter<Merchant, MyHolder>(R.layout.item_merchant
                     .build()
                     .show()
             }
+            root.safeClicks().subscribe { _ ->
+                val item = mData[helper.adapterPosition - 1]
+                Intent(mContext, MerchantDetailAct::class.java).apply {
+                    putExtra(Key.merchant, item)
+                }.let {
+                    mContext.startActivity(it)
+                }
+            }
         }
+
 
     }
 
