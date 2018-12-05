@@ -1,16 +1,17 @@
 package com.unicorn.signboard.list.building
 
+import android.content.Intent
 import androidx.lifecycle.LifecycleOwner
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
 import com.jakewharton.rxbinding2.view.longClicks
 import com.unicorn.signboard.R
-import com.unicorn.signboard.app.AppTime
-import com.unicorn.signboard.app.ConfigUtils
+import com.unicorn.signboard.app.*
 import com.unicorn.signboard.app.adapter.MyAdapter
 import com.unicorn.signboard.app.adapter.MyHolder
-import com.unicorn.signboard.app.observeOnMain
+import com.unicorn.signboard.detail.building.BuildingDetailAct
+import com.unicorn.signboard.detail.ground.GroundDetailAct
 import com.unicorn.signboard.input.building.Building
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.item_building.*
@@ -43,6 +44,14 @@ class BuildingListAdapter : MyAdapter<Building, MyHolder>(R.layout.item_building
                     }
                     .build()
                     .show()
+            }
+            root.safeClicks().subscribe { _ ->
+                val item = mData[helper.adapterPosition - 1]
+                Intent(mContext, BuildingDetailAct::class.java).apply {
+                    putExtra(Key.building, item)
+                }.let {
+                    mContext.startActivity(it)
+                }
             }
         }
 

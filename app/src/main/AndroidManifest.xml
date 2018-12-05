@@ -34,7 +34,7 @@
         <activity android:name=".statistics.ui.StatAct"/>
         <activity android:name=".detail.ground.GroundDetailAct"/>
         <activity android:name=".detail.merchant.MerchantDetailAct"/>
-
+        <activity android:name=".detail.building.BuildingDetailAct"/>
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.unicorn.signboard.input.building
 
 import com.unicorn.signboard.merchant.add.Obj
 import com.unicorn.signboard.merchant.add.UploadResponse
+import java.io.Serializable
 
 class Building(
     val objectId:String="",
@@ -26,4 +27,4 @@ class Building(
     var number12:Int = 0,
     val pictureList: MutableList<UploadResponse?> = ArrayList<UploadResponse?>().apply { add(null) },
     val registrationTime: Long = 0
-)
+): Serializable

@@ -11,5 +11,6 @@ object Key{
     const val lastDate = "lastDate"
     const val ground = "ground"
     const val merchant = "merchant"
+    const val building = "building"
 
 }
