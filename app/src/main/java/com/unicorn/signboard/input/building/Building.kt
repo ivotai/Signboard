@@ -26,5 +26,6 @@ class Building(
     var number11:Int = 0,
     var number12:Int = 0,
     val pictureList: MutableList<UploadResponse?> = ArrayList<UploadResponse?>().apply { add(null) },
+    val pictureLinks:List<String> = ArrayList(),
     val registrationTime: Long = 0
 ): Serializable

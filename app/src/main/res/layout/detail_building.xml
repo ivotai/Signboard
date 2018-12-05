@@ -14,6 +14,12 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
+
+        <com.unicorn.signboard.app.custom.ui.TitleBar
+                android:id="@+id/titleBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,32 +36,17 @@
                     android:textColor="@color/md_grey_700"
                     android:textSize="17dp"/>
 
-            <EditText
-                    android:id="@+id/etAddress"
+            <TextView
+                    android:gravity="center_vertical"
+                    android:id="@+id/tvAddress"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:inputType="text"
                     android:textColor="@color/md_grey_400"
                     android:textSize="17dp"/>
 
-            <!--<TextView-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:id="@+id/tvMatchingAddress"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/md_green_400"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingStart="12dp"-->
-            <!--android:paddingTop="5dp"-->
-            <!--android:paddingEnd="12dp"-->
-            <!--android:paddingBottom="5dp"-->
-            <!--android:text="匹配"-->
-            <!--android:textColor="@color/md_white"/>-->
-
-            <com.unicorn.signboard.app.custom.ui.ProgressImageView
+            <ImageView
                     android:id="@+id/ivAddress"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
@@ -81,14 +72,12 @@
                     android:textColor="@color/md_grey_700"
                     android:textSize="17dp"/>
 
-            <EditText
-                    android:id="@+id/etName"
+            <TextView
+                    android:id="@+id/tvName"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="16dp"
                     android:layout_weight="1"
-                    android:background="@null"
-                    android:inputType="text"
                     android:textColor="@color/md_grey_400"
                     android:textSize="17dp"/>
 
@@ -165,7 +154,7 @@
                         android:padding="12dp"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:background="@null"
                         android:paddingEnd="12dp"
                         android:id="@+id/tvNumber1"
@@ -191,7 +180,7 @@
                         android:textColor="@color/md_grey_700"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:inputType="numberSigned"
                         android:id="@+id/tvNumber2"
                         android:layout_width="0dp"
@@ -227,7 +216,7 @@
                         android:padding="12dp"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:background="@null"
                         android:paddingEnd="12dp"
                         android:id="@+id/tvNumber3"
@@ -253,7 +242,7 @@
                         android:textColor="@color/md_grey_700"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:inputType="numberSigned"
                         android:id="@+id/tvNumber4"
                         android:layout_width="0dp"
@@ -289,7 +278,7 @@
                         android:padding="12dp"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:background="@null"
                         android:paddingEnd="12dp"
                         android:id="@+id/tvNumber5"
@@ -315,7 +304,7 @@
                         android:textColor="@color/md_grey_700"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:inputType="numberSigned"
                         android:id="@+id/tvNumber6"
                         android:layout_width="0dp"
@@ -351,7 +340,7 @@
                         android:padding="12dp"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:background="@null"
                         android:paddingEnd="12dp"
                         android:id="@+id/tvNumber7"
@@ -377,7 +366,7 @@
                         android:textColor="@color/md_grey_700"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:inputType="numberSigned"
                         android:id="@+id/tvNumber8"
                         android:layout_width="0dp"
@@ -413,7 +402,7 @@
                         android:padding="12dp"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:background="@null"
                         android:paddingEnd="12dp"
                         android:id="@+id/tvNumber9"
@@ -439,7 +428,7 @@
                         android:textColor="@color/md_grey_700"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:inputType="numberSigned"
                         android:id="@+id/tvNumber10"
                         android:layout_width="0dp"
@@ -475,7 +464,7 @@
                         android:padding="12dp"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:background="@null"
                         android:paddingEnd="12dp"
                         android:id="@+id/tvNumber11"
@@ -501,7 +490,7 @@
                         android:textColor="@color/md_grey_700"
                         android:textSize="17dp"/>
 
-                <EditText
+                <TextView
                         android:inputType="numberSigned"
                         android:id="@+id/tvNumber12"
                         android:layout_width="0dp"
@@ -556,12 +545,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-        <com.unicorn.signboard.app.custom.ui.CustomButton
-                android:id="@+id/btnSave"
+        <com.unicorn.signboard.app.custom.ui.DeleteButton
+                android:id="@+id/btnDelete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="保存"/>
+                android:text="删除"/>
 
     </LinearLayout>
 
