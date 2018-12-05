@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:background="@color/md_white"
+                                                   tools:ignore="HardcodedText,RtlSymmetry,SpUsage,LabelFor,ContentDescription,Autofill">
+
+    <ImageView
+            android:id="@+id/ivPhoto"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginStart="8dp"
+            android:scaleType="fitXY"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="16dp" android:layout_marginBottom="16dp"/>
+
+    <TextView
+            android:id="@+id/labelType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="招牌类型"
+            android:textSize="14dp"
+            app:layout_constraintStart_toEndOf="@+id/ivPhoto"
+            app:layout_constraintTop_toTopOf="@+id/ivPhoto"/>
+
+    <TextView
+            android:id="@+id/tvType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:hint="选择招牌类型"
+            android:textSize="14dp"
+            app:layout_constraintStart_toEndOf="@+id/labelType"
+            app:layout_constraintTop_toTopOf="@+id/labelType"/>
+
+    <TextView
+            android:id="@+id/labelType2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="设置形式"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="@+id/labelType"
+            app:layout_constraintTop_toBottomOf="@+id/labelType"/>
+
+    <TextView
+            android:id="@+id/tvSetupType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="选择设置形式"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="@+id/tvType"
+            app:layout_constraintTop_toTopOf="@+id/labelType2"/>
+
+    <TextView
+            android:id="@+id/labelDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="挑出距离"
+            android:textSize="14dp"
+            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/labelMaterial"
+            app:layout_constraintStart_toStartOf="@+id/labelMaterial"
+    />
+
+    <TextView
+            android:id="@+id/tvExternalDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="选择挑出距离"
+            android:textSize="14dp"
+            app:layout_constraintTop_toTopOf="@+id/labelDistance"
+            app:layout_constraintStart_toStartOf="@+id/tvSetupType"/>
+
+    <TextView
+            android:id="@+id/labelMaterial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="有无结构"
+            android:textSize="14dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/labelType2"
+            app:layout_constraintStart_toStartOf="@+id/labelType2"/>
+
+    <TextView
+            android:id="@+id/tvStructure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="有无结构"
+            android:textSize="14dp"
+            app:layout_constraintStart_toStartOf="@+id/tvExternalDistance"
+            app:layout_constraintTop_toTopOf="@+id/labelMaterial"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
