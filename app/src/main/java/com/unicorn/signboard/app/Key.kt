@@ -7,5 +7,7 @@ object Key{
     const val area = "area"
     const val token = "token"
     const val logout = "logout"
+    const val position = "position"
+    const val lastDate = "lastDate"
 
 }

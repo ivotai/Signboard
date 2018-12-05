@@ -9,10 +9,10 @@ import com.unicorn.signboard.merchant.add.Merchant
 import com.unicorn.signboard.merchant.add.Obj
 import com.unicorn.signboard.merchant.model.Dict
 import com.unicorn.signboard.operateType.model.OperateType
+import com.unicorn.signboard.statistics.model.HomeInfo
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
-
 
 
 interface UniqueApi {
@@ -83,7 +83,7 @@ interface UniqueApi {
 
     @Headers("Content-Type: application/json")
     @POST("api/v1/sign/ground")
-    fun saveGround(@Body ground:Ground): Observable<BaseResponse>
+    fun saveGround(@Body ground: Ground): Observable<BaseResponse>
 
     @Headers("Content-Type: application/json")
     @POST("api/v1/sign/building")
@@ -101,6 +101,10 @@ interface UniqueApi {
     fun deleteGround(@Path("objectId") objectId: String): Observable<BaseResponse>
 
     @GET(value = "public/checkUpdate")
-    fun checkUpdate(@Query("id") id: String,@Query("version") version: String): Observable<CheckUpdateResponse>
+    fun checkUpdate(@Query("id") id: String, @Query("version") version: String): Observable<CheckUpdateResponse>
+
+    // home
+    @GET("api/v1/sign/home")
+    fun getHomeInfo(): Observable<HomeInfo>
 
 }

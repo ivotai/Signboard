@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        tools:ignore="HardcodedText,SpUsage"
+        android:background="#3964b5f6"
+        android:layout_height="56dp">
+
+    <TextView
+            android:id="@+id/tvType"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="类型"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:textColor="@color/colorPrimary"
+    />
+
+    <TextView
+            android:id="@+id/tvToday"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="本日"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:textColor="@color/colorPrimary"
+    />
+
+    <TextView
+            android:id="@+id/tvWeek"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="本周"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:textColor="@color/colorPrimary"
+    />
+
+    <TextView
+            android:id="@+id/tvMonth"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="本月"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:textColor="@color/colorPrimary"
+    />
+
+    <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="总计"
+            android:gravity="center"
+            android:textSize="17dp"
+            android:textColor="@color/colorPrimary"
+    />
+
+</LinearLayout>
