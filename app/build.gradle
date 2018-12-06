@@ -73,6 +73,7 @@ dependencies {
     implementation 'top.zibin:Luban:1.1.8'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
+    implementation 'com.borax12.materialdaterangepicker:library:1.9'
 }
 
 androidExtensions {

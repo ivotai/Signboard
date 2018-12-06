@@ -46,6 +46,9 @@ object AppTime {
     // today今天，week本周，month本月，空或任意字符代表全部
     var lastDate = LastDate.Month
 
+    var startDate = ""
+    var endDate = ""
+
     fun init() {
         fun initClient() {
             client = OkHttpClient.Builder()
