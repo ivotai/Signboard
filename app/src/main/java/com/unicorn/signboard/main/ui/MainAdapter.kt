@@ -11,6 +11,7 @@ import com.unicorn.signboard.input.InputAct
 import com.unicorn.signboard.list.ListAct
 import com.unicorn.signboard.login.ui.LoginAct
 import com.unicorn.signboard.statistics.ui.StatAct
+import com.unicorn.signboard.summary.SummaryAct
 import kotlinx.android.synthetic.main.item_right_arrow.*
 
 class MainAdapter : MyAdapter<String, MyHolder>(R.layout.item_right_arrow) {
@@ -28,7 +29,8 @@ class MainAdapter : MyAdapter<String, MyHolder>(R.layout.item_right_arrow) {
                 when (item) {
                     "商户录入" -> mContext.startActivity(Intent(mContext, InputAct::class.java))
                     "商户列表" -> mContext.startActivity(Intent(mContext, ListAct::class.java))
-                    "商户统计" -> mContext.startActivity(Intent(mContext, StatAct::class.java))
+                    "登记统计" -> mContext.startActivity(Intent(mContext, StatAct::class.java))
+                    "用户统计" -> mContext.startActivity(Intent(mContext, SummaryAct::class.java))
                     "退出" -> {
                         mContext.startActivity(Intent(mContext, LoginAct::class.java).apply {
                             putExtra(Key.logout, true)
