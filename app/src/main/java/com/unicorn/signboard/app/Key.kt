@@ -12,5 +12,6 @@ object Key{
     const val ground = "ground"
     const val merchant = "merchant"
     const val building = "building"
+    const val photoUrl = "photoUrl"
 
 }

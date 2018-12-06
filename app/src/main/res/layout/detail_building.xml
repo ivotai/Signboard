@@ -529,15 +529,6 @@
                     android:textColor="@color/md_grey_400"
                     android:textSize="17dp"/>
 
-            <ImageView
-                    android:id="@+id/addSignboard"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="16dp"
-                    android:scaleType="fitCenter"
-                    android:src="@mipmap/add"/>
-
-
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

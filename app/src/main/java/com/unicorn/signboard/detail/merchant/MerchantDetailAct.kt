@@ -1,6 +1,7 @@
 package com.unicorn.signboard.detail.merchant
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.Gravity
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -15,6 +16,7 @@ import com.unicorn.signboard.app.*
 import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.list.RefreshListEvent
 import com.unicorn.signboard.merchant.add.Merchant
+import com.unicorn.signboard.photo.PhotoAct
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.detail_merchant.*
 
@@ -35,6 +37,7 @@ class MerchantDetailAct : BaseAct() {
             }
             mAdapter.setNewData(merchant.signBoardList)
         }
+
         fun initOperateStatus() {
             AppTime.dict.OperateStatus.forEachIndexed { index, obj ->
                 RadioButton(this@MerchantDetailAct).apply {
@@ -58,6 +61,7 @@ class MerchantDetailAct : BaseAct() {
             }
             segmented.updateBackground()
         }
+
         fun renderView() {
             merchant.apply {
                 tvAddress.text = address
@@ -79,6 +83,12 @@ class MerchantDetailAct : BaseAct() {
 
     @SuppressLint("CheckResult")
     override fun bindIntent() {
+        ivAddress.safeClicks().subscribe { _ ->
+            Intent(this@MerchantDetailAct, PhotoAct::class.java).apply {
+                val url = "${ConfigUtils.baseUrl2}${merchant.houseNumberPictureLink}"
+                putExtra(Key.photoUrl, url)
+            }.let { startActivity(it) }
+        }
         btnDelete.safeClicks().subscribe {
             MaterialDialog.Builder(this).title("确认删除商户？")
                 .positiveText("确认")

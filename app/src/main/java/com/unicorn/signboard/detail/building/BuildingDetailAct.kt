@@ -1,6 +1,7 @@
 package com.unicorn.signboard.detail.building
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.afollestad.materialdialogs.MaterialDialog
@@ -11,6 +12,7 @@ import com.unicorn.signboard.app.*
 import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.input.building.Building
 import com.unicorn.signboard.list.RefreshListEvent
+import com.unicorn.signboard.photo.PhotoAct
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.detail_building.*
 
@@ -60,6 +62,12 @@ class BuildingDetailAct : BaseAct() {
     }
 
     override fun bindIntent() {
+        ivAddress.safeClicks().subscribe { _ ->
+            Intent(this@BuildingDetailAct, PhotoAct::class.java).apply {
+                val url = "${ConfigUtils.baseUrl2}${building.houseNumberPictureLink}"
+                putExtra(Key.photoUrl, url)
+            }.let { startActivity(it) }
+        }
         btnDelete.safeClicks().subscribe {
             MaterialDialog.Builder(this).title("确认删除商户？")
                 .positiveText("确认")

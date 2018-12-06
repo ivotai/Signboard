@@ -1,6 +1,7 @@
 package com.unicorn.signboard.detail.ground
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.afollestad.materialdialogs.MaterialDialog
@@ -11,6 +12,7 @@ import com.unicorn.signboard.app.*
 import com.unicorn.signboard.app.base.BaseAct
 import com.unicorn.signboard.input.ground.Ground
 import com.unicorn.signboard.list.RefreshListEvent
+import com.unicorn.signboard.photo.PhotoAct
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.detail_ground.*
 
@@ -50,6 +52,12 @@ class GroundDetailAct : BaseAct() {
 
     @SuppressLint("CheckResult")
     override fun bindIntent() {
+        ivAddress.safeClicks().subscribe { _ ->
+            Intent(this@GroundDetailAct, PhotoAct::class.java).apply {
+                val url = "${ConfigUtils.baseUrl2}${ground.houseNumberPictureLink}"
+                putExtra(Key.photoUrl, url)
+            }.let { startActivity(it) }
+        }
         btnDelete.safeClicks().subscribe {
             MaterialDialog.Builder(this).title("确认删除商户？")
                 .positiveText("确认")
