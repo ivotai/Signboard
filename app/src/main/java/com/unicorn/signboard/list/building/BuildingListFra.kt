@@ -35,7 +35,9 @@ class BuildingListFra : BaseFra(), PageActOrFra<Building> {
             page = pageNo,
             pageSize = rows,
             lastDate = AppTime.lastDate.value,
-            keyword = keyword
+            keyword = keyword,
+            startDate = AppTime.startDate,
+            endDate = AppTime.endDate
         ).observeOnMain(this)
     }
 

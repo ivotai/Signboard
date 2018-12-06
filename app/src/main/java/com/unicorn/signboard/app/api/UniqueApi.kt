@@ -10,6 +10,7 @@ import com.unicorn.signboard.merchant.add.Obj
 import com.unicorn.signboard.merchant.model.Dict
 import com.unicorn.signboard.operateType.model.OperateType
 import com.unicorn.signboard.statistics.model.HomeInfo
+import com.unicorn.signboard.summary.model.Summary
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
@@ -37,7 +38,9 @@ interface UniqueApi {
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
         @Query("lastDate") lastDate: String,
-        @Query("keyword") keyword: String
+        @Query("keyword") keyword: String,
+        @Query("endDate") endDate: String,
+        @Query("startDate") startDate: String
     ): Observable<Page<Merchant>>
 
     @GET(value = "api/v1/sign/ground")
@@ -45,7 +48,9 @@ interface UniqueApi {
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
         @Query("lastDate") lastDate: String,
-        @Query("keyword") keyword: String
+        @Query("keyword") keyword: String,
+        @Query("endDate") endDate: String,
+        @Query("startDate") startDate: String
     ): Observable<Page<Ground>>
 
     @GET(value = "api/v1/sign/building")
@@ -53,8 +58,21 @@ interface UniqueApi {
         @Query("page") page: Int,
         @Query("pageSize") pageSize: Int,
         @Query("lastDate") lastDate: String,
-        @Query("keyword") keyword: String
+        @Query("keyword") keyword: String,
+        @Query("endDate") endDate: String,
+        @Query("startDate") startDate: String
     ): Observable<Page<Building>>
+
+    // summary
+    @GET(value = "api/v1/sign/summary")
+    fun getSummary(
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int,
+        @Query("lastDate") lastDate: String,
+        @Query("startDate") startDate: String,
+        @Query("endDate") endDate: String,
+        @Query("keyword") keyword: String
+    ): Observable<Page<Summary>>
 
     //  字典等
     @GET(value = "api/v1/sign/dict")

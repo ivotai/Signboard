@@ -36,6 +36,7 @@
         <activity android:name=".detail.merchant.MerchantDetailAct"/>
         <activity android:name=".detail.building.BuildingDetailAct"/>
         <activity android:name=".photo.PhotoAct"/>
+        <activity android:name=".summary.SummaryAct"/>
     </application>
 
 </manifest>

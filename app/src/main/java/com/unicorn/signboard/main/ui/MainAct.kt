@@ -34,8 +34,17 @@ class MainAct : BaseAct() {
     }
 
     private fun setAdapterData() {
-        val version = "版本号: ${AppUtils.getAppVersionName()}"
-        listOf(version, "商户录入", "商户列表", "商户统计", "退出").let { mAdapter.setNewData(it) }
+        val list = ArrayList<String>()
+        list.apply {
+            val version = "版本号: ${AppUtils.getAppVersionName()}"
+            add(version)
+            add("商户录入")
+            add("商户列表")
+            add("登记统计")
+            if (AppTime.loginResponse.currentUser.roleTag != "Normal") add("用户统计")
+            add("退出")
+        }
+        mAdapter.setNewData(list)
     }
 
     @SuppressLint("CheckResult")
