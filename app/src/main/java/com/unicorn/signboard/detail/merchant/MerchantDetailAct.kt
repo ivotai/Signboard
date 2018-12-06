@@ -61,7 +61,7 @@ class MerchantDetailAct : BaseAct() {
         fun renderView() {
             merchant.apply {
                 tvAddress.text = address
-                val url = "${ConfigUtils.baseUrl2}$houseNumberPictureLink"
+                val url = "${ConfigUtils.baseUrl2}$houseNumberPictureLink!100_100"
                 Glide.with(this@MerchantDetailAct).load(url).into(ivAddress)
                 tvName.text = name
                 tvOperateType.text = operateType?.name

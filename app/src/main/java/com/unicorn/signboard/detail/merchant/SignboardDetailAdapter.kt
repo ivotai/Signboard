@@ -1,6 +1,5 @@
 package com.unicorn.signboard.detail.merchant
 
-import android.view.View
 import com.bumptech.glide.Glide
 import com.unicorn.signboard.R
 import com.unicorn.signboard.app.ConfigUtils
@@ -16,7 +15,7 @@ class SignboardDetailAdapter : MyAdapter<SignBoard, MyHolder>(R.layout.item_sign
 
     override fun convert(helper: MyHolder, item: SignBoard) {
         helper.apply {
-            val url = "${ConfigUtils.baseUrl2}${item.pictureLink}"
+            val url = "${ConfigUtils.baseUrl2}${item.pictureLink}!200_200"
             Glide.with(mContext).load(url).into(ivPhoto)
             tvType.text = item.type.name
             tvSetupType.text = item.setupType.name

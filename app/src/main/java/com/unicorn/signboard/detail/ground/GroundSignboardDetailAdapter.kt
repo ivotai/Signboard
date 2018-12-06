@@ -16,7 +16,7 @@ class GroundSignboardDetailAdapter : MyAdapter<GroundSignBoard, MyHolder>(R.layo
 
     override fun convert(helper: MyHolder, item: GroundSignBoard) {
         helper.apply {
-            val url = "${ConfigUtils.baseUrl2}${item.pictureLink}"
+            val url = "${ConfigUtils.baseUrl2}${item.pictureLink}!200_200"
             Glide.with(mContext).load(url).into(ivPhoto)
             tvBoardHeight.text = item.boardHeight.name
         }

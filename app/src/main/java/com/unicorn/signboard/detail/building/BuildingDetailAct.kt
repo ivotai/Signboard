@@ -35,7 +35,7 @@ class BuildingDetailAct : BaseAct() {
         fun renderView() {
             building.apply {
                 tvAddress.text = address
-                val url = "${ConfigUtils.baseUrl2}$houseNumberPictureLink"
+                val url = "${ConfigUtils.baseUrl2}$houseNumberPictureLink!100_100"
                 Glide.with(this@BuildingDetailAct).load(url).into(ivAddress)
                 tvName.text = name
                 tvArea.text = area?.name

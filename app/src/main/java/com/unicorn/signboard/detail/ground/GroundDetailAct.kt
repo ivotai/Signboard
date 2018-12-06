@@ -34,7 +34,7 @@ class GroundDetailAct : BaseAct() {
         fun renderView() {
             ground.apply {
                 tvAddress.text = address
-                val url = "${ConfigUtils.baseUrl2}$houseNumberPictureLink"
+                val url = "${ConfigUtils.baseUrl2}$houseNumberPictureLink!100_100"
                 Glide.with(this@GroundDetailAct).load(url).into(ivAddress)
                 tvName.text = name
                 tvOperateType.text = operateType?.name

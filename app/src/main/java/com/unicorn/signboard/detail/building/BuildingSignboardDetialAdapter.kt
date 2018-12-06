@@ -14,7 +14,7 @@ class BuildingSignboardDetialAdapter : MyAdapter<String, MyHolder>(R.layout.item
 
     override fun convert(helper: MyHolder, item: String?) {
         helper.apply {
-            val url = "${ConfigUtils.baseUrl2}$item"
+            val url = "${ConfigUtils.baseUrl2}$item!200_200"
             Glide.with(mContext).load(url).into(ivPhoto)
         }
     }
