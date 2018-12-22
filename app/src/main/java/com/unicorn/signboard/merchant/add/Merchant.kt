@@ -17,8 +17,10 @@ data class Merchant(
     var coordinateX: Double = 0.0,
     var coordinateY: Double = 0.0,
     val signBoardList: List<SignBoard> = ArrayList<SignBoard>().apply { add(SignBoard()) },
-    val registrationTime: Long = 0
-):Serializable
+    val registrationTime: Long = 0,
+    var original: Int = 1, // 0表复制出来
+    var originalId: String = ""
+) : Serializable
 
 class Obj(
     val objectId: String,

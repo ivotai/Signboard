@@ -43,6 +43,9 @@ interface UniqueApi {
         @Query("startDate") startDate: String
     ): Observable<Page<Merchant>>
 
+    @GET(value = "api/v1/sign/merchant/recent")
+    fun getRecentMerchant(): Observable<List<Merchant>>
+
     @GET(value = "api/v1/sign/ground")
     fun getGround(
         @Query("page") page: Int,

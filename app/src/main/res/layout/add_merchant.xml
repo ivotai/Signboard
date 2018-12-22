@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="match_parent" xmlns:app="http://schemas.android.com/apk/res-auto"
             tools:ignore="HardcodedText,RtlSymmetry,SpUsage,LabelFor,ContentDescription,Autofill"
             android:background="@color/md_grey_300">
 
@@ -41,25 +41,22 @@
                     android:textColor="@color/md_grey_400"
                     android:textSize="17dp"/>
 
-            <!--<TextView-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:id="@+id/tvMatchingAddress"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/md_green_400"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingStart="12dp"-->
-            <!--android:paddingTop="5dp"-->
-            <!--android:paddingEnd="12dp"-->
-            <!--android:paddingBottom="5dp"-->
-            <!--android:text="匹配"-->
-            <!--android:textColor="@color/md_white"/>-->
+            <TextView
+                    android:id="@+id/tvRecent"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:text="{faw-clone}"
+                    android:gravity="center"
+                    android:textSize="18dp"
+                    android:textColor="@color/md_green_300"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
             <com.unicorn.signboard.app.custom.ui.ProgressImageView
                     android:id="@+id/ivAddress"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
-                    android:layout_marginStart="12dp"
                     android:scaleType="fitXY"
                     android:src="@mipmap/add_photo"/>
 

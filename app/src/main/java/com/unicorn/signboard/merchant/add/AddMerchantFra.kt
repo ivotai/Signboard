@@ -9,6 +9,7 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
+import com.afollestad.materialdialogs.MaterialDialog
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
@@ -131,7 +132,29 @@ class AddMerchantFra : BaseFra() {
             })
             client.start()
         }
+        tvRecent.safeClicks().subscribe { _ ->
+            AppTime.api.getRecentMerchant().observeOnMain(this).subscribeBy(
+                onNext = {
+                    showRecentMerchantDialog(it)
+                },
+                onError = {}
+            )
+        }
     }
+
+    private fun showRecentMerchantDialog(list: List<Merchant>) {
+        MaterialDialog.Builder(context!!).items(list.map { it.name })
+            .itemsCallback { _, _, position, _ ->
+                val select = list[position]
+                etAddress.setText(select.address)
+                val url = "${ConfigUtils.baseUrl2}${select.houseNumberPictureLink}!100_100"
+                Glide.with(this).load(url).into(ivAddress)
+                // 表明是复制的
+                merchant.original = 0
+                merchant.originalId = select.objectId
+            }.show()
+    }
+
 
     private fun matchingName(name: String) {
         val mask = DialogUtils.showMask(context!!, "匹配商户名称中...")
@@ -221,8 +244,8 @@ class AddMerchantFra : BaseFra() {
             tvOperateType.text = it.name
         })
         RxBus.registerEvent(this, Area::class.java, Consumer {
-            val obj = Obj(objectId = it.objectId,name = it.name)
-            merchant.area=obj
+            val obj = Obj(objectId = it.objectId, name = it.name)
+            merchant.area = obj
             AppTime.lastArea = obj
             tvArea.text = it.name
         })
@@ -243,7 +266,7 @@ class AddMerchantFra : BaseFra() {
                 ToastUtils.showShort("门牌地址不能为空")
                 return
             }
-            if (houseNumberPicture == null) {
+            if (original == 1 && houseNumberPicture == null) {
                 ToastUtils.showShort("请拍摄门牌地址照片")
                 return
             }
