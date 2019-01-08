@@ -12,7 +12,7 @@ data class Merchant(
     var operateType: Obj? = null,
     var operateStatus: Obj? = null,
     var area: Obj? = null,
-    var storeCount: Int = 1,
+    val storeCount: Int = 1,
     val region: Obj? = null,
     var coordinateX: Double = 0.0,
     var coordinateY: Double = 0.0,

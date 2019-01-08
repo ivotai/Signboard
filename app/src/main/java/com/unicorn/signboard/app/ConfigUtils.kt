@@ -16,7 +16,8 @@ class ConfigUtils {
 
 //        const val baseUrl2 = "http://chue59.natappfree.cc/signboard"
 
-        const val baseUrl2 = "https://lhsrkj.com/signboard"
+//        const val baseUrl2 = "https://lhsrkj.com/signboard"
+        const val baseUrl2 = "http://106.14.125.9:80/signboard"
         const val baseUrl = "$baseUrl2/"
     }
 

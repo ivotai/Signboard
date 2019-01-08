@@ -17,7 +17,6 @@ import com.baidu.location.LocationClientOption
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.bumptech.glide.Glide
-import com.jakewharton.rxbinding2.widget.textChanges
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.unicorn.signboard.R
@@ -78,7 +77,7 @@ class AddMerchantFra : BaseFra() {
         }
         initOperateStatus()
         // 初始化店家数量
-        etStoreCount.setText(merchant.storeCount.toString())
+        etStoreCount.text = merchant.storeCount.toString()
         // 初始化招牌
         fun initSignboard() {
             recyclerView.apply {
@@ -109,8 +108,8 @@ class AddMerchantFra : BaseFra() {
         tvMatchingName.safeClicks().subscribe { matchingName(etName.trimText()) }
         tvOperateType.safeClicks().subscribe { startActivity(Intent(context, OperateTypeAct::class.java)) }
         tvArea.safeClicks().subscribe { startActivity(Intent(context, AreaAct::class.java)) }
-        etStoreCount.textChanges().filter { it.isNotEmpty() }.map { it.toString().toInt() }
-            .subscribe { merchant.storeCount = it }
+//        etStoreCount.textChanges().filter { it.isNotEmpty() }.map { it.toString().toInt() }
+//            .subscribe { merchant.storeCount = it }
         addSignboard.safeClicks(this).subscribe {
             signboardAdapter.addData(SignBoard())
             refreshSignboardCount()
@@ -143,7 +142,7 @@ class AddMerchantFra : BaseFra() {
     }
 
     private fun showRecentMerchantDialog(list: List<Merchant>) {
-        MaterialDialog.Builder(context!!).items(list.map { it.name })
+        MaterialDialog.Builder(context!!).items(list.map { "${it.address} (${it.name})" })
             .itemsCallback { _, _, position, _ ->
                 val select = list[position]
                 etAddress.setText(select.address)
